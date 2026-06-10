@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Notifications | Editorial Pulse</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .pulse-hover:hover {
+            box-shadow: inset 0px 0px 12px rgba(151, 0, 27, 0.1);
+            border-color: #97001b !important;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f3f3f3;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #dadada;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "tertiary-container": "#616161",
+                        "surface-container-lowest": "#ffffff",
+                        "inverse-on-surface": "#f0f1f1",
+                        "on-primary-fixed-variant": "#93001a",
+                        "outline-variant": "#e4bdbb",
+                        "surface-container-low": "#f3f3f3",
+                        "primary-fixed-dim": "#ffb3b0",
+                        "on-primary-fixed": "#410006",
+                        "secondary-fixed": "#e5e2e1",
+                        "on-secondary-fixed-variant": "#474646",
+                        "inverse-primary": "#ffb3b0",
+                        "surface-container-highest": "#e2e2e2",
+                        "surface-tint": "#bc1128",
+                        "on-tertiary-fixed-variant": "#464747",
+                        "secondary": "#5f5e5e",
+                        "on-primary": "#ffffff",
+                        "on-secondary-fixed": "#1c1b1b",
+                        "primary-fixed": "#ffdad8",
+                        "on-tertiary-container": "#dedcdc",
+                        "primary": "#97001b",
+                        "surface-container-high": "#e8e8e8",
+                        "primary-container": "#c0152a",
+                        "error-container": "#ffdad6",
+                        "on-surface-variant": "#5b403e",
+                        "on-error-container": "#93000a",
+                        "tertiary-fixed": "#e4e2e2",
+                        "secondary-container": "#e5e2e1",
+                        "surface": "#f9f9f9",
+                        "on-surface": "#1a1c1c",
+                        "on-tertiary-fixed": "#1b1c1c",
+                        "inverse-surface": "#2f3131",
+                        "on-background": "#1a1c1c",
+                        "surface-variant": "#e2e2e2",
+                        "outline": "#906f6d",
+                        "tertiary": "#494949",
+                        "on-tertiary": "#ffffff",
+                        "surface-container": "#eeeeee",
+                        "background": "#f9f9f9",
+                        "surface-dim": "#dadada",
+                        "on-secondary-container": "#656464",
+                        "surface-bright": "#f9f9f9",
+                        "secondary-fixed-dim": "#c8c6c5",
+                        "on-secondary": "#ffffff",
+                        "on-primary-container": "#ffd2d0",
+                        "tertiary-fixed-dim": "#c7c6c6",
+                        "on-error": "#ffffff",
+                        "error": "#ba1a1a"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "margin-mobile": "20px",
+                        "margin-desktop": "64px",
+                        "section-gap": "80px",
+                        "base": "8px",
+                        "content-gap": "24px",
+                        "gutter": "24px"
+                    },
+                    "fontFamily": {
+                        "display-lg": ["Lexend"],
+                        "body-lg": ["Lexend"],
+                        "headline-xl": ["Lexend"],
+                        "headline-lg": ["Lexend"],
+                        "label-md": ["Lexend"],
+                        "display-lg-mobile": ["Lexend"],
+                        "label-sm": ["Lexend"],
+                        "body-md": ["Lexend"],
+                        "body-sm": ["Lexend"]
+                    },
+                    "fontSize": {
+                        "display-lg": ["64px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "headline-xl": ["36px", {"lineHeight": "1.2", "fontWeight": "600"}],
+                        "headline-lg": ["28px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                        "label-md": ["14px", {"lineHeight": "1.4", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                        "display-lg-mobile": ["40px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "label-sm": ["12px", {"lineHeight": "1.2", "fontWeight": "600"}],
+                        "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                        "body-sm": ["14px", {"lineHeight": "1.4", "fontWeight": "400"}]
+                    }
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background text-on-surface font-body-md custom-scrollbar selection:bg-primary-container selection:text-on-primary-container">
+<div class="flex min-h-screen max-w-[1440px] mx-auto">
+<!-- SideNavBar -->
+<aside class="hidden lg:flex flex-col py-margin-desktop px-6 gap-6 h-screen sticky top-0 w-64 bg-surface border-r border-outline-variant">
+<div class="mb-4">
+<span class="font-display-lg text-headline-xl font-bold text-primary">Editorial Pulse</span>
+</div>
+<nav class="flex flex-col gap-2">
+<a class="flex items-center gap-4 transition-colors hover:text-primary py-2 text-on-surface-variant pl-5" href="#">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+<span class="font-body-md">Home</span>
+</a>
+<a class="flex items-center gap-4 transition-colors hover:text-primary py-2 text-on-surface-variant pl-5" href="#">
+<span class="material-symbols-outlined" data-icon="explore">explore</span>
+<span class="font-body-md">Explore</span>
+</a>
+<a class="flex items-center gap-4 transition-colors hover:text-primary py-2 text-on-surface-variant pl-5" href="#">
+<span class="material-symbols-outlined" data-icon="group">group</span>
+<span class="font-body-md">Groups</span>
+</a>
+<a class="flex items-center gap-4 transition-colors hover:text-primary py-2 text-on-surface-variant pl-5" href="#">
+<span class="material-symbols-outlined" data-icon="mail">mail</span>
+<span class="font-body-md">Messages</span>
+</a>
+<a class="flex items-center justify-between transition-colors hover:text-primary py-2 text-on-surface font-bold border-l-4 border-primary pl-4" href="#">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined" data-icon="notifications" style="font-variation-settings: 'FILL' 1;">notifications</span>
+<span class="font-body-md">Notifications</span>
+</div>
+<span class="bg-[#E8A838] text-white font-label-sm text-label-sm px-2 py-0.5 rounded-full">12</span>
+</a>
+<a class="flex items-center gap-4 transition-colors hover:text-primary py-2 text-on-surface-variant pl-5" href="#">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="font-body-md">Profile</span>
+</a>
+<a class="flex items-center gap-4 transition-colors hover:text-primary py-2 text-on-surface-variant pl-5" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-body-md">Settings</span>
+</a>
+</nav>
+<button class="mt-8 bg-primary text-on-primary py-3 px-6 rounded-xl font-bold transition-all active:scale-95 hover:bg-[#c0152a] hover:shadow-lg">
+            New Post
+        </button>
+<div class="mt-auto flex items-center gap-3 pt-6 border-t border-outline-variant">
+<img alt="User profile avatar" class="w-10 h-10 rounded-full bg-surface-container-high" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBoY4IQLnVd3u6x0IDA5g18XfMC5lO1Qs1Y4FTB1qwJPtLjxSvJNFgH0wOAxZqJigRJXvnKKIfL2eo9ZpSIRiJaE04XAyYII56tNezeRNsm6W98pU58IMe1GoUyYk_WWYg2keKQAOZDR9848Az_iTY7KHGw4BoivL4dA0Pzo36uoq4N3yTi4kr3yxrgKYRFnmmGlxzImIBqx2_SMKdgdTVapK8U50d31HbZ5WGTStHY9_fE4oWHW7Dpom8iNNI63GBe08fbPvN6-GOb"/>
+<div>
+<p class="font-bold text-on-surface">@username</p>
+<p class="text-body-sm text-on-surface-variant">Editorial Pulse</p>
+</div>
+</div>
+</aside>
+<!-- Main Feed (Notifications) -->
+<main class="flex-1 flex flex-col min-w-0 bg-background">
+<!-- TopAppBar (Mobile) -->
+<header class="lg:hidden flex justify-between items-center px-4 h-16 sticky top-0 z-50 bg-surface/80 backdrop-blur-md border-b border-outline-variant">
+<span class="font-display-lg-mobile text-headline-lg font-bold text-primary">Editorial Pulse</span>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="notifications">notifications</span>
+<img alt="User avatar" class="w-8 h-8 rounded-full" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCRjHWvfB8_9HffEdfD58wLaD6xYvV8SVJUSHCefg5daySZWU6hI7P1wHHjcjmJVJiDYmdykcZUTnviRKLyGt5aJHJ9SYzQ7KXeyNtqBkte5xtQ5EB9hE5Ab44l3Re7u6Yak0uR0-8wwsBJqOBPqN62xcE-TTKorqBsU7Wp2QbgOuGvNJWhCOcYQtOKHoCSilhowIdUcrXvPs2ce0K54UUwVDk5HAw2CrsHXqRkYZr0h6-_TcheJNHva3ydaYc7j-4MGsp6lcYNvL-G"/>
+</div>
+</header>
+<div class="p-margin-mobile lg:p-margin-desktop max-w-2xl mx-auto w-full">
+<div class="flex items-center justify-between mb-8">
+<h1 class="font-display-lg text-headline-xl lg:text-display-lg font-bold text-on-surface">Notifications</h1>
+<button class="text-primary font-label-md text-label-md hover:underline">MARK ALL AS READ</button>
+</div>
+<!-- TODAY SECTION -->
+<section class="mb-10">
+<h2 class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest mb-4">Today</h2>
+<div class="space-y-4">
+<!-- Notification Item 1 (Unread) -->
+<div class="bg-surface-container-lowest border border-outline-variant p-6 rounded-xl flex gap-4 items-start pulse-hover transition-all group relative">
+<div class="absolute top-6 right-6 w-2.5 h-2.5 bg-primary rounded-full"></div>
+<img alt="User profile" class="w-12 h-12 rounded-xl object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD22nCEh3ncPnSy9ZXIBtyTXZ3Zc9VdvAT0jTP3Hug2oMhNrWeh_0MBdLsHor7G3OZSCmmELIRKhzg2SAW9krEkKx34N7i6iG9r6jr9SIOCTHzQmt186feps54HKzY3mOjZi-I-19Ly8l9Vl5h0445dbIDfAi-4KrqlLJw4iQVgsRnh8-7ITAjHqFOzjrzOJt_kkuiJepOq6w1Amfgw8xrWxAdQwocQyeOfbMf_rXdE_24GaJRLaFzFy40vrrhdqgAGDY4z2CcobRCt"/>
+<div class="flex-1">
+<p class="text-on-surface"><span class="font-bold">Julian Vane</span> liked your post <span class="text-on-surface-variant italic">"The Architecture of Silence"</span></p>
+<p class="text-body-sm text-on-surface-variant mt-1">2 hours ago</p>
+</div>
+</div>
+<!-- Notification Item 2 -->
+<div class="bg-surface-container-lowest border border-outline-variant p-6 rounded-xl flex gap-4 items-start pulse-hover transition-all group">
+<img alt="User profile" class="w-12 h-12 rounded-xl object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBF1F6r-6cbOSZE6A9yR8N6SpvL6tOuyvM7OwBFIaly03QWpCXL0Z4Kcw8TQvIxF90sxvNx3vLCSvtjJl8EQZsAKzFzqjdMudUUUD0UTKuTWFt6AeVDNLPQvbW4Xo7Q32bAh_oydd44aiRQ4XMstkz-BNkOQIomb1jTFdumcaxT6c-hpM2DYDaA1zqzZomwBq0G_wdUBmoIIXOJRGXv9KAIEZecoor38c3c8wRGe9Lk_1WkXOjfdc4StiIlsrYg5miaPFMWf9cUnt81"/>
+<div class="flex-1">
+<p class="text-on-surface"><span class="font-bold">Elena Rossi</span> started following you</p>
+<p class="text-body-sm text-on-surface-variant mt-1">5 hours ago</p>
+</div>
+<button class="bg-primary text-on-primary px-4 py-1.5 rounded-lg font-bold text-body-sm hover:bg-[#c0152a]">Follow</button>
+</div>
+</div>
+</section>
+<!-- THIS WEEK SECTION -->
+<section class="mb-10">
+<h2 class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest mb-4">This Week</h2>
+<div class="space-y-4">
+<!-- Notification Item 3 (Unread) -->
+<div class="bg-surface-container-lowest border border-outline-variant p-6 rounded-xl flex gap-4 items-start pulse-hover transition-all group relative">
+<div class="absolute top-6 right-6 w-2.5 h-2.5 bg-primary rounded-full"></div>
+<img alt="User profile" class="w-12 h-12 rounded-xl object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBi0X0RJNPoQQY9J5Cs6u2o4IhnkHoQKoXcjJrCaFpUvtDzsgWLoAdYA4bJrjHYhRVCdMnSaEeM27fIG7haMHNTLfWVaLHF_9THR-xsS_k1bU7AWim6o7kgD47W1Hz3JCmV1yPoSTE2WbYzoyFOZveLiC6WhdPQk0EJG30MFHxYZu4d4mOQUMm4r7tX0CdXmR0T4I27SBVWz7ILdVz_kMZAnGOhglRsA4_YDBwH7Qz1GLDejXyHuXZELnqb1-QC1Svb7DVF0Z7CX3dc"/>
+<div class="flex-1">
+<p class="text-on-surface"><span class="font-bold">Marcus Thorne</span> commented on your photo: <span class="text-primary italic">"Exceptional use of light here."</span></p>
+<div class="mt-3 p-3 bg-surface rounded border border-outline-variant flex gap-3 items-center">
+<img alt="Small thumbnail" class="w-10 h-10 rounded-lg object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAAX4g6-yDNSuw4kbZhL3LbP4up0ZEaSxXnZYDUqjxqzEbeCdnYaFgPH26M3clRQkLG62HzXYWDWiCiE8WdaLmncArkNzj_raeFP2O2T1x0Mm3dgH7QhIOqnzSLGOvX0YGcZ5Kf895KtcpVl4neYExgeRxkRlR_fyiI4j15cyqawuxPqKc9gn9dcr32XCUhCbH7IiQDEglJ940L0MG5TxSWeg2pv54539QiJ_4jt5Ai-fKlFAM_ZywV5J-8aabhiLGhLMa1PNf0Iw0w"/>
+<span class="text-body-sm text-on-surface-variant truncate">View original post</span>
+</div>
+<p class="text-body-sm text-on-surface-variant mt-2">Tuesday</p>
+</div>
+</div>
+<!-- Notification Item 4 -->
+<div class="bg-surface-container-lowest border border-outline-variant p-6 rounded-xl flex gap-4 items-start pulse-hover transition-all group">
+<div class="w-12 h-12 rounded-xl bg-surface-variant flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-3xl" data-icon="group" style="font-variation-settings: 'FILL' 1;">group</span>
+</div>
+<div class="flex-1">
+<p class="text-on-surface">A new post was shared in the <span class="font-bold">Editorial Design Collective</span> group</p>
+<p class="text-body-sm text-on-surface-variant mt-1">Monday</p>
+</div>
+</div>
+</div>
+</section>
+<!-- EARLIER SECTION -->
+<section>
+<h2 class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest mb-4">Earlier</h2>
+<div class="space-y-4">
+<!-- Notification Item 5 -->
+<div class="bg-surface-container-lowest border border-outline-variant p-6 rounded-xl flex gap-4 items-start opacity-70 hover:opacity-100 transition-opacity">
+<img alt="User profile" class="w-12 h-12 rounded-xl object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA_n5vzwERXWRA_ytPEo4mJkggpp-z8nWp1dnAJnHNqaeAK6qiObrHME1S5UiCWkk72w66u_6KBu5l7YEaXQUHeeOoTLmML0d4VtF8XzDDn1yli3HFZw0RKaH2ZGZrEIk8m0opplr7BxIcCsoksPKTzzHjItLCQ31HiKouVDPm11IKEB1TQtz-5EzPY9jMoa8F4c03SSRYPcDG5v9pSwQW-NvjGZNOhaQVFSmLwwT68B6hFwWrPzimLyEFhT6XCsCkCPgxJrzmYbK5C"/>
+<div class="flex-1">
+<p class="text-on-surface"><span class="font-bold">Sophia Chen</span> liked 4 of your posts</p>
+<p class="text-body-sm text-on-surface-variant mt-1">Aug 24</p>
+</div>
+</div>
+</div>
+</section>
+</div>
+</main>
+<!-- Right Sidebar (Editorial Highlights) -->
+<aside class="hidden xl:flex flex-col py-margin-desktop px-8 gap-8 h-screen sticky top-0 w-[380px] border-l border-outline-variant bg-surface">
+<div class="relative">
+<input class="w-full bg-surface-container-lowest border border-outline-variant rounded-xl py-3 pl-12 pr-4 text-on-surface placeholder:text-on-surface-variant focus:ring-1 focus:ring-primary focus:border-primary outline-none transition-all" placeholder="Search Pulse..." type="text"/>
+<span class="material-symbols-outlined absolute left-4 top-3.5 text-on-surface-variant" data-icon="search">search</span>
+</div>
+<div class="bg-surface-container-low rounded-xl border border-outline-variant p-6 overflow-hidden relative">
+<div class="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-full blur-3xl -mr-16 -mt-16"></div>
+<h3 class="font-display-lg-mobile text-headline-lg text-on-surface mb-4">Editorial Trends</h3>
+<div class="space-y-6">
+<div class="group cursor-pointer">
+<p class="font-label-sm text-label-sm text-primary mb-1">01 / DESIGN</p>
+<p class="font-bold text-on-surface group-hover:text-primary transition-colors">The Return of Serif: Why Modernism is Getting a Classic Upgrade</p>
+<p class="text-body-sm text-on-surface-variant">1.2k reads today</p>
+</div>
+<div class="group cursor-pointer">
+<p class="font-label-sm text-label-sm text-primary mb-1">02 / CULTURE</p>
+<p class="font-bold text-on-surface group-hover:text-primary transition-colors">Digital Minimalism in the Age of Constant Connectivity</p>
+<p class="text-body-sm text-on-surface-variant">856 reads today</p>
+</div>
+<div class="group cursor-pointer">
+<p class="font-label-sm text-label-sm text-primary mb-1">03 / TECH</p>
+<p class="font-bold text-on-surface group-hover:text-primary transition-colors">AI as the New Creative Director: A Threat or a Tool?</p>
+<p class="text-body-sm text-on-surface-variant">2.4k reads today</p>
+</div>
+</div>
+<button class="mt-6 text-primary font-bold text-body-sm hover:underline">Show more</button>
+</div>
+<div class="rounded-xl border border-outline-variant p-6 bg-surface-container-lowest">
+<h3 class="font-headline-lg text-headline-sm text-on-surface mb-4">Suggested Editors</h3>
+<div class="space-y-4">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-3">
+<img alt="Suggested User" class="w-10 h-10 rounded-full" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDxZdZ3_uSZzffNm9gRNU5h0myRymvCrzpvVnvQNmBEfws9goEn2GW5202ffSgm65QP3YMs-SoDJYB6F5h-O85ysGWQO9V8-U2jLXYFgiROfhUuWIU0fgw6ruR3ty-pB2aqc38PahnrMJOzHFDveHx-uZEpfExZIdsrTNcxkIv_RP5sFUtbFlBTyL_y7XAHbtG3WFVd01KZkmwGHPOW4exFY_KqKdsaUc78aroQYivNoLJzhjRkUTt2PV17RbbxFeAIQvjX64qL7R3w"/>
+<div>
+<p class="font-bold text-on-surface text-body-sm">Leo Sterling</p>
+<p class="text-xs text-on-surface-variant">Creative Strategist</p>
+</div>
+</div>
+<button class="border border-primary text-primary px-3 py-1 rounded-lg text-xs font-bold hover:bg-primary/5">Follow</button>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-3">
+<img alt="Suggested User" class="w-10 h-10 rounded-full" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB9MLPZnMkHy8F3I4-p5jhksOSf_hYX0OzapzLn4JWmW3DaiY7FvHVLdh2XiPQprD15tCkRM2kKIZcG0i7gHFIbBJBPRLvmv7V2dA_ekj1KUb5z6sU8ecQb9AqwY6mSYb2M0qp98k3oBhJdwCFRYVBcjnRfTxZZa0JefOCQOKlK4I9F8gErTSAtDmLU-tx6GnlwmtDk0hHt6TuRWkRAE-427h45GxkvJosrCJELL0wyoBJbLQ7hpKG8vNbbg-QetToxmKL1TbntV5L0"/>
+<div>
+<p class="font-bold text-on-surface text-body-sm">Anais Dupont</p>
+<p class="text-xs text-on-surface-variant">Cultural Critic</p>
+</div>
+</div>
+<button class="border border-primary text-primary px-3 py-1 rounded-lg text-xs font-bold hover:bg-primary/5">Follow</button>
+</div>
+</div>
+</div>
+</aside>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="lg:hidden fixed bottom-0 w-full z-50 bg-surface/90 backdrop-blur-xl border-t border-outline-variant h-16 flex justify-around items-center pb-safe shadow-lg">
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-variant/20 duration-200 active:scale-90" href="#">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-variant/20 duration-200 active:scale-90" href="#">
+<span class="material-symbols-outlined" data-icon="search">search</span>
+</a>
+<a class="flex flex-col items-center justify-center text-primary duration-200 active:scale-90" href="#">
+<span class="material-symbols-outlined text-4xl" data-icon="add_circle">add_circle</span>
+</a>
+<a class="flex flex-col items-center justify-center text-primary duration-200 active:scale-90" href="#">
+<div class="relative">
+<span class="material-symbols-outlined" data-icon="notifications" style="font-variation-settings: 'FILL' 1;">notifications</span>
+<span class="absolute -top-1 -right-1 w-2 h-2 bg-primary rounded-full"></span>
+</div>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-variant/20 duration-200 active:scale-90" href="#">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+</a>
+</nav>
+</div>
+<script>
+    // Simple micro-interaction for marking read
+    document.querySelectorAll('.relative .bg-primary').forEach(dot => {
+        dot.parentElement.addEventListener('click', function() {
+            this.querySelector('.bg-primary').style.display = 'none';
+        });
+    });
+</script>
+</body></html>
