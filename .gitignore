@@ -9,6 +9,9 @@ backend/server
 *.test
 *.out
 /bin/
+.qodo/
+.codex
+
 
 # Go workspace sum file
 go.work.sum
@@ -28,6 +31,9 @@ vendor/
 *.swp
 *.swo
 Thumbs.db
+.gitignore
+projectdetails.md
+tasks.md
 
 # Docker volumes and runtime data
 *.db
