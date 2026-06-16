@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Editorial Pulse | Messages</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .pulse-hover:hover {
+            box-shadow: 0px 0px 12px rgba(192, 21, 42, 0.2);
+            border-color: #bc1128;
+            transition: all 0.3s ease;
+        }
+        ::-webkit-scrollbar {
+            width: 4px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f3f3f3;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #dadada;
+            border-radius: 10px;
+        }
+        .glass-effect {
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "tertiary-container": "#616161",
+                        "surface-container-lowest": "#ffffff",
+                        "inverse-on-surface": "#f0f1f1",
+                        "on-primary-fixed-variant": "#93001a",
+                        "outline-variant": "#e4bdbb",
+                        "surface-container-low": "#f3f3f3",
+                        "primary-fixed-dim": "#ffb3b0",
+                        "on-primary-fixed": "#410006",
+                        "secondary-fixed": "#e5e2e1",
+                        "on-secondary-fixed-variant": "#474646",
+                        "inverse-primary": "#ffb3b0",
+                        "surface-container-highest": "#e2e2e2",
+                        "surface-tint": "#bc1128",
+                        "on-tertiary-fixed-variant": "#464747",
+                        "secondary": "#5f5e5e",
+                        "on-primary": "#ffffff",
+                        "on-secondary-fixed": "#1c1b1b",
+                        "primary-fixed": "#ffdad8",
+                        "on-tertiary-container": "#dedcdc",
+                        "primary": "#97001b",
+                        "surface-container-high": "#e8e8e8",
+                        "primary-container": "#c0152a",
+                        "error-container": "#ffdad6",
+                        "on-surface-variant": "#5b403e",
+                        "on-error-container": "#93000a",
+                        "tertiary-fixed": "#e4e2e2",
+                        "secondary-container": "#e5e2e1",
+                        "surface": "#f9f9f9",
+                        "on-surface": "#1a1c1c",
+                        "on-tertiary-fixed": "#1b1c1c",
+                        "inverse-surface": "#2f3131",
+                        "on-background": "#1a1c1c",
+                        "surface-variant": "#e2e2e2",
+                        "outline": "#906f6d",
+                        "tertiary": "#494949",
+                        "on-tertiary": "#ffffff",
+                        "surface-container": "#eeeeee",
+                        "background": "#f9f9f9",
+                        "surface-dim": "#dadada",
+                        "on-secondary-container": "#656464",
+                        "surface-bright": "#f9f9f9",
+                        "secondary-fixed-dim": "#c8c6c5",
+                        "on-secondary": "#ffffff",
+                        "on-primary-container": "#ffd2d0",
+                        "tertiary-fixed-dim": "#c7c6c6",
+                        "on-error": "#ffffff",
+                        "error": "#ba1a1a"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "margin-mobile": "20px",
+                        "margin-desktop": "64px",
+                        "section-gap": "80px",
+                        "base": "8px",
+                        "content-gap": "24px",
+                        "gutter": "24px",
+                        "margin-page": "40px",
+                        "container-padding": "24px"
+                    },
+                    "fontFamily": {
+                        "display-lg": ["Lexend"],
+                        "body-lg": ["Lexend"],
+                        "headline-xl": ["Lexend"],
+                        "headline-lg": ["Lexend"],
+                        "headline-md": ["Lexend"],
+                        "headline-sm": ["Lexend"],
+                        "label-md": ["Lexend"],
+                        "display-lg-mobile": ["Lexend"],
+                        "label-sm": ["Lexend"],
+                        "label-mono": ["Lexend"],
+                        "body-md": ["Lexend"],
+                        "body-sm": ["Lexend"]
+                    },
+                    "fontSize": {
+                        "display-lg": ["64px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "headline-xl": ["36px", {"lineHeight": "1.2", "fontWeight": "600"}],
+                        "headline-lg": ["28px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                        "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                        "headline-sm": ["20px", {"lineHeight": "1.4", "fontWeight": "600"}],
+                        "label-md": ["14px", {"lineHeight": "1.4", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                        "display-lg-mobile": ["40px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "label-sm": ["12px", {"lineHeight": "1.2", "fontWeight": "600"}],
+                        "label-mono": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                        "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                        "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}]
+                    }
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background text-on-surface selection:bg-primary-container/20 font-body-md">
+<div class="flex min-h-screen">
+<!-- SIDEBAR NAVIGATION (Desktop) -->
+<nav class="hidden lg:flex flex-col py-margin-page px-6 gap-6 h-screen sticky top-0 w-64 bg-surface border-r border-outline-variant">
+<h1 class="font-display-lg text-[32px] font-bold text-primary mb-6">Editorial Pulse</h1>
+<div class="flex flex-col gap-4">
+<a class="flex items-center gap-3 py-2 text-on-surface-variant pl-5 transition-colors hover:text-primary active:scale-95 transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+<span class="font-body-md text-body-md">Home</span>
+</a>
+<a class="flex items-center gap-3 py-2 text-on-surface-variant pl-5 transition-colors hover:text-primary active:scale-95 transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="explore">explore</span>
+<span class="font-body-md text-body-md">Explore</span>
+</a>
+<a class="flex items-center gap-3 py-2 text-on-surface-variant pl-5 transition-colors hover:text-primary active:scale-95 transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="group">group</span>
+<span class="font-body-md text-body-md">Groups</span>
+</a>
+<!-- Active Tab: Messages -->
+<a class="flex items-center gap-3 py-2 text-on-surface font-bold border-l-4 border-primary pl-4 active:scale-95 transition-transform" href="#">
+<span class="material-symbols-outlined text-primary" data-icon="mail" style="font-variation-settings: 'FILL' 1;">mail</span>
+<span class="font-body-md text-body-md">Messages</span>
+</a>
+<a class="flex items-center gap-3 py-2 text-on-surface-variant pl-5 transition-colors hover:text-primary active:scale-95 transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+<span class="font-body-md text-body-md">Notifications</span>
+</a>
+<a class="flex items-center gap-3 py-2 text-on-surface-variant pl-5 transition-colors hover:text-primary active:scale-95 transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="font-body-md text-body-md">Profile</span>
+</a>
+<a class="flex items-center gap-3 py-2 text-on-surface-variant pl-5 transition-colors hover:text-primary active:scale-95 transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-body-md text-body-md">Settings</span>
+</a>
+</div>
+<button class="mt-12 bg-primary-container text-on-primary py-3 px-6 rounded-lg font-body-md font-bold hover:brightness-110 transition-all hover:scale-[1.02] active:scale-95">
+                New Post
+            </button>
+<div class="mt-auto flex items-center gap-3 px-2">
+<img alt="Alex Mercer" class="w-10 h-10 rounded-full border border-outline-variant" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDN37cXp4B_XxdrcBp9gCRiDpAuUZesR-twNKEw9iTfNbK59aDJLBQ-Q8RN5c64ddMVEyt8q_tk6PNIWJcPy7KKvg9sKFWE2ad6LCNeYOT_P0-_ezJelT80stvxa3nk0P61pnCMoBc8_EAKIC9S4FTHRx2n53coAVNpB6A3o8pkKMuJYBHAkH4sbReZg_rLsDlHj2bnrmX79WSGm7u5GJoOeJFDggO7cehr0Z5G2LCzQsqo8W7XYYdeKyNSs2v-0wHTNJkSTwWG3RAE"/>
+<div class="flex flex-col">
+<span class="font-body-sm font-bold text-on-surface">Alex Mercer</span>
+<span class="font-label-mono text-on-surface-variant">@username</span>
+</div>
+</div>
+</nav>
+<!-- TOP APP BAR (Mobile) -->
+<header class="lg:hidden flex justify-between items-center px-4 h-16 sticky top-0 z-50 bg-surface/80 backdrop-blur-md border-b border-outline-variant w-full">
+<h1 class="font-display-lg-mobile text-[24px] font-bold text-primary">Editorial Pulse</h1>
+<div class="flex gap-4">
+<span class="material-symbols-outlined text-primary" data-icon="mail" style="font-variation-settings: 'FILL' 1;">mail</span>
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="notifications">notifications</span>
+<img alt="User avatar" class="w-8 h-8 rounded-full border border-outline-variant" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDEh-D77JIHb0UBPZU5f8bxc_7-__8ddGSqeIEEpV_xt8Gljj2rex2DbNb9B2POVuG2o5wYwix6u3ZuHReSkSQmB4cQ2zXXFt59gVS_PH9kgyybh05Z4IqhSHNSmBNXzo87wcnaBYqyUloDcnV_ChHcNb02M5vlErCi_csGDp9Z5Ogk2PhT8EOUfvZmbCPyRZmi_3YKCWexPe5ONH-y5tgTQd9LX1gb_AXkvHPuto2l933cnV3_RfaYunpWC2WHXYwC8z9lOjFeb-pm"/>
+</div>
+</header>
+<!-- MAIN CONTENT AREA -->
+<main class="flex-1 flex flex-col lg:flex-row h-screen overflow-hidden">
+<!-- CONVERSATION LIST PANEL -->
+<section class="w-full lg:w-[400px] bg-surface flex flex-col border-r border-outline-variant">
+<div class="p-6 border-b border-outline-variant">
+<h2 class="font-headline-md text-headline-md text-on-surface mb-4">Messages</h2>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant" data-icon="search">search</span>
+<input class="w-full bg-surface-container-low border border-outline-variant rounded-lg py-2 pl-10 pr-4 text-on-surface font-body-sm focus:outline-none focus:border-primary transition-colors" placeholder="Search conversations..." type="text"/>
+</div>
+</div>
+<div class="flex-1 overflow-y-auto">
+<!-- Chat Item (Active) -->
+<div class="p-6 border-b border-l-4 border-l-primary bg-surface-container-high cursor-pointer hover:bg-surface-container-highest transition-colors">
+<div class="flex gap-4">
+<div class="relative">
+<img alt="Julian Vane" class="w-12 h-12 rounded-lg object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC8qvKPDviUoogAJj-WkWuAlMrQopk37RqiBpd-Yt0bR2Dd5ytLaJxA9LWtocughafFPAyYqIsgxS-kvnfWVfmNAnpz177Jy9enoT66rMILdPoG7fSicXSvFTSxMVx5Xqr8b01kzz4Zp85ddGLy5o84Hl4zXXV24nkTpneco0LFYQKxi7h0ihz2XX06VxYGHXsRHUH6VIAmkR9VjNHgZLZyYmzVys75Yf7754KL3FSgRy_0rbfrJJ0pg_rojbAstGwvnMzuwKxpw4wm"/>
+<div class="absolute -bottom-1 -right-1 w-3 h-3 bg-primary border-2 border-surface-container-high rounded-full"></div>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-baseline mb-1">
+<h3 class="font-body-md font-bold text-on-surface truncate">Julian Vane</h3>
+<span class="font-label-mono text-on-surface-variant">2m ago</span>
+</div>
+<p class="font-body-sm text-on-surface-variant truncate">The layout for the September issue looks incredible. Let's finalize...</p>
+</div>
+</div>
+</div>
+<!-- Chat Item -->
+<div class="p-6 border-b border-l-4 border-l-transparent cursor-pointer hover:bg-surface-container transition-colors group">
+<div class="flex gap-4">
+<img alt="Elena Rossi" class="w-12 h-12 rounded-lg object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBjX5dq-gKfwa9BP67j1Jyq12sYABLBS9JCDjb5B0-N_CwwQL59o3E0vFULocmpBAmE3wzgm0PT0hbtMZ4VfVGL4HI9Uxu4zQNBCiW9I06_193sMisMFSiayRS2NLctqRvYCaJ0OTskAGECX-OqMQ6ovFhGhNxVYf2H__U4r20qhlk3hlJFyC8CflfCFEsdAnM9mt32a_Eg8Z8PHEQjYSae2PL72JZ2xoxVp7pArzPAIpZl0a8FtyZIva-L6yxexJaErfa_K5Zq7oOY"/>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-baseline mb-1">
+<h3 class="font-body-md font-bold text-on-surface truncate">Elena Rossi</h3>
+<span class="font-label-mono text-on-surface-variant">1h ago</span>
+</div>
+<p class="font-body-sm text-primary font-bold truncate">Sent a photo</p>
+</div>
+</div>
+</div>
+<!-- Chat Item -->
+<div class="p-6 border-b border-l-4 border-l-transparent cursor-pointer hover:bg-surface-container transition-colors">
+<div class="flex gap-4">
+<img alt="Marcus Thorne" class="w-12 h-12 rounded-lg object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBYKo-wTc7jmRqq9wa7NUP3OxVv8-JtfOQypYPt5WxLErt9yqKKBJGcJFXUll2UVskFbIfDXU1SvcLFJOx9TzfAMgs4e_hbUWX1V2IpipP5TnQ7FISjXxFAwGBXMduNAmHsoooj6zFHX-IMopenDLzueLFimrH6_XCkWXNwmqftNIoOwBJfanbVvGD9A_MFYajl8HfbV-dM6mPy5_ASEzPqrDI5cHEfHy0kocr8VDmr8w1rbtUF7KR3K1JpsQH_8jH0Xz5EtnSr1dul"/>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-baseline mb-1">
+<h3 class="font-body-md font-bold text-on-surface truncate">Marcus Thorne</h3>
+<span class="font-label-mono text-on-surface-variant">4h ago</span>
+</div>
+<p class="font-body-sm text-on-surface-variant/60 truncate italic">You: I'll check the specs by morning.</p>
+</div>
+</div>
+</div>
+<!-- Chat Item -->
+<div class="p-6 border-b border-l-4 border-l-transparent cursor-pointer hover:bg-surface-container transition-colors">
+<div class="flex gap-4">
+<div class="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary" data-icon="group">group</span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-baseline mb-1">
+<h3 class="font-body-md font-bold text-on-surface truncate">Design Sprint '24</h3>
+<span class="font-label-mono text-on-surface-variant">Yesterday</span>
+</div>
+<p class="font-body-sm text-on-surface-variant truncate"><span class="font-bold">Sofia:</span> Did everyone see the brief?</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- ACTIVE CHAT PANEL -->
+<section class="hidden lg:flex flex-1 flex-col bg-surface-container-lowest">
+<!-- Chat Header -->
+<div class="h-20 px-8 flex items-center justify-between border-b border-outline-variant glass-effect sticky top-0 z-10 bg-surface-container-lowest/80">
+<div class="flex items-center gap-4">
+<img alt="Julian Vane" class="w-10 h-10 rounded-lg object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCIMbF2h4UkPX3pGm4T6Tnap33bNZC7gHyj9-fdk2FI0rqZO0QwgiPVnk91Kzo-uGyyFUU7e0NOna1lGAjHY6pfwPK6eUDAEHj13k8SVTL3lOfvY_pqBj-hql4XIMYPN8csWa4xXFVEnmt2s2HJxqCaTyQwZYJQ70vjL8qWloxNqCJo9Xwwn2RERLYcjv5n0XotBu56rykB9eL4roBzW9dcbCcX-mgdU3-Jbv7dbAOLoHkyJaYlBB4ZSRxd-BAH1mKMB-kTZkV9XHpj"/>
+<div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Julian Vane</h3>
+<span class="font-label-mono text-primary text-[10px] font-bold uppercase tracking-widest">Online Now</span>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<button class="text-on-surface-variant hover:text-primary transition-colors"><span class="material-symbols-outlined" data-icon="videocam">videocam</span></button>
+<button class="text-on-surface-variant hover:text-primary transition-colors"><span class="material-symbols-outlined" data-icon="call">call</span></button>
+<button class="text-on-surface-variant hover:text-primary transition-colors"><span class="material-symbols-outlined" data-icon="info">info</span></button>
+</div>
+</div>
+<!-- Chat Messages Area -->
+<div class="flex-1 overflow-y-auto p-8 flex flex-col gap-6">
+<div class="flex justify-center">
+<span class="font-label-mono bg-surface-container py-1 px-4 rounded-full text-on-surface-variant text-[10px]">MONDAY, SEPTEMBER 2ND</span>
+</div>
+<!-- Received Message -->
+<div class="flex gap-3 max-w-[80%]">
+<img alt="Julian" class="w-8 h-8 rounded-full self-end mb-1" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAYB2EzQ_qaKg4ovUtsAzp6El2IGlnsBlOm46geAxZej6mO4k7l7Xdu8KT8-B3wDKGWwYzhVOcFYFOv97hJi6Iy3RJ74axVdYYrA23LdEH_yrQo0dbVSdM9dnAV3WwTBwoEoiLbVZCMLr3nplBYTISusmUVNUkbU9_wUnQusipE0ZmoQvlNs4RsZ4k-T9MuGV0lYipJ3DH2KX74i0KMP4ZqPOoA0j_BBv8UY3mP5Qj-mkmAQncKFgIIvHFWvMNfZtNxFCrahuNUSnJg"/>
+<div class="flex flex-col gap-1">
+<div class="bg-surface-container text-on-surface px-5 py-3 rounded-2xl rounded-bl-none font-body-md leading-relaxed border border-outline-variant">
+                                The layout for the September issue looks incredible. Let's finalize the typography for the lead feature.
+                            </div>
+<span class="font-label-mono text-[10px] text-on-surface-variant ml-1">10:42 AM</span>
+</div>
+</div>
+<!-- Sent Message -->
+<div class="flex flex-col gap-1 max-w-[80%] ml-auto items-end">
+<div class="bg-primary-container text-on-primary px-5 py-3 rounded-2xl rounded-br-none font-body-md leading-relaxed shadow-lg shadow-primary-container/10">
+                            I agree. I was thinking of using Playfair Display for the headlines to keep that high-contrast editorial feel. What do you think?
+                        </div>
+<span class="font-label-mono text-[10px] text-on-surface-variant mr-1">10:45 AM • Read</span>
+</div>
+<!-- Received Message -->
+<div class="flex gap-3 max-w-[80%]">
+<img alt="Julian" class="w-8 h-8 rounded-full self-end mb-1" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBVBaEOaHirKe0rv-4SaFQ27tbulmdF0TGZ6tUj2D7MXYuaTynuRicnYb1beJMm2iegnFg71-Q1m1C6JD5Nca6vx_b4k8KzHHs1bV3BTM9fGyO5EkJv1XGlTIi3vbIpZ7T1B-2uSbvO_WWq7DNCtha5sp8lFB4RtHBW_BbI4eXA4h1IN37SQQwlpvQTgbBSiIoPBrvJtNRVmSFtq8mLI75Ois_FKgrhdXhYLwPPH8zNvYL4Bxj8oR3aCxJJGJYXw--nXfOBL_2wFbJm"/>
+<div class="flex flex-col gap-1">
+<div class="bg-surface-container text-on-surface px-5 py-3 rounded-2xl rounded-bl-none font-body-md leading-relaxed border border-outline-variant">
+                                Perfect. It pairs beautifully with the Lexend body text. It feels both classic and dangerously modern.
+                            </div>
+<div class="bg-surface-container text-on-surface px-5 py-3 rounded-2xl rounded-bl-none font-body-md leading-relaxed border border-outline-variant">
+                                Can you send over the updated grid draft?
+                            </div>
+<span class="font-label-mono text-[10px] text-on-surface-variant ml-1">10:47 AM</span>
+</div>
+</div>
+<!-- Sent Message (Image Attachment) -->
+<div class="flex flex-col gap-1 max-w-[80%] ml-auto items-end">
+<div class="relative group cursor-pointer overflow-hidden rounded-2xl rounded-br-none border-2 border-primary-container">
+<img alt="Layout Draft" class="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD-DAwZW3tRBNZB4mfy1NZRqJZ4RdGvjus6Uo4Ue5VIk0ESanwvbSCpy-dVblo0E4VfVDLi15Izs5mW2Kh3r0xHUmPHp-mxAYWuJfh1B8EU-nrPNDAKU_vRAeni7wev4xJwGUr4vmOqxTAYyFvk_ykbYSd5VXG2rYqK2wiIfYyM7hJMNaP1Hb86WrRfXp_LdlL8DqdXqZdE20nKxIjPRtHK9PiPlmsLGwiqc6To7WchDtEcY9VBvlOB1f3ygKkunK2y6RKrdeQ6h2u-"/>
+<div class="absolute inset-0 bg-primary-container/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+<span class="material-symbols-outlined text-white scale-150" data-icon="fullscreen">fullscreen</span>
+</div>
+</div>
+<div class="bg-primary-container text-on-primary px-5 py-3 rounded-2xl rounded-br-none font-body-md leading-relaxed mt-2">
+                            Here's the latest draft of the bento grid for the gallery section.
+                        </div>
+<span class="font-label-mono text-[10px] text-on-surface-variant mr-1">10:50 AM</span>
+</div>
+</div>
+<!-- Chat Input Bar -->
+<div class="p-8 border-t border-outline-variant bg-surface-container-lowest">
+<div class="flex items-center gap-4 bg-surface-container-low border border-outline-variant rounded-2xl px-4 py-2 focus-within:border-primary transition-all">
+<button class="p-2 text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="add_circle">add_circle</span>
+</button>
+<button class="p-2 text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="image">image</span>
+</button>
+<input class="flex-1 bg-transparent border-none focus:ring-0 text-on-surface font-body-md py-2 px-2" id="chatInput" placeholder="Type a message..." type="text"/>
+<button class="p-2 text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="mood">mood</span>
+</button>
+<button class="bg-primary-container text-on-primary w-10 h-10 rounded-xl flex items-center justify-center hover:brightness-110 active:scale-95 transition-all" id="sendBtn">
+<span class="material-symbols-outlined" data-icon="send">send</span>
+</button>
+</div>
+</div>
+</section>
+</main>
+<!-- BOTTOM NAV BAR (Mobile) -->
+<nav class="lg:hidden fixed bottom-0 w-full z-50 flex justify-around items-center h-16 pb-safe bg-surface/90 backdrop-blur-xl border-t border-outline-variant shadow-lg">
+<a class="flex flex-col items-center justify-center text-on-surface-variant active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+<span class="font-label-mono text-[10px]">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="search">search</span>
+<span class="font-label-mono text-[10px]">Explore</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="add_circle">add_circle</span>
+<span class="font-label-mono text-[10px]">Add</span>
+</a>
+<a class="flex flex-col items-center justify-center text-primary active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+<span class="font-label-mono text-[10px]">Alerts</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="font-label-mono text-[10px]">Profile</span>
+</a>
+</nav>
+</div>
+<script>
+        // Simple micro-interaction for sending a message
+        const sendBtn = document.getElementById('sendBtn');
+        const input = document.getElementById('chatInput');
+        const messageArea = document.querySelector('.overflow-y-auto');
+
+        function sendMessage() {
+            if (input.value.trim() === '') return;
+            
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'flex flex-col gap-1 max-w-[80%] ml-auto items-end animate-in fade-in slide-in-from-bottom-4 duration-300';
+            messageDiv.innerHTML = `
+                <div class="bg-primary-container text-on-primary px-5 py-3 rounded-2xl rounded-br-none font-body-md leading-relaxed shadow-lg shadow-primary-container/10">
+                    ${input.value}
+                </div>
+                <span class="font-label-mono text-[10px] text-on-surface-variant mr-1">Just now</span>
+            `;
+            
+            messageArea.appendChild(messageDiv);
+            input.value = '';
+            messageArea.scrollTo({ top: messageArea.scrollHeight, behavior: 'smooth' });
+        }
+
+        sendBtn.addEventListener('click', sendMessage);
+        input.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') sendMessage();
+        });
+
+        // Initialize scroll to bottom
+        window.onload = () => {
+            if (messageArea) {
+                messageArea.scrollTop = messageArea.scrollHeight;
+            }
+        };
+    </script>
+</body></html>

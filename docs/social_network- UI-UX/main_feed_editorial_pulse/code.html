@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Editorial Pulse | Haute Social</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        body {
+            background-color: #f9f9f9;
+            color: #1a1c1c;
+            -webkit-font-smoothing: antialiased;
+        }
+        .editorial-shadow {
+            box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
+        }
+        .pulse-hover:hover {
+            box-shadow: 0px 0px 12px rgba(192, 21, 42, 0.1);
+            border-color: #C0152A !important;
+        }
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        .crimson-gradient {
+            background: linear-gradient(135deg, #C0152A 0%, #96101F 100%);
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "tertiary-container": "#616161",
+                        "surface-container-lowest": "#ffffff",
+                        "inverse-on-surface": "#f0f1f1",
+                        "on-primary-fixed-variant": "#93001a",
+                        "outline-variant": "#e4bdbb",
+                        "surface-container-low": "#f3f3f3",
+                        "primary-fixed-dim": "#ffb3b0",
+                        "on-primary-fixed": "#410006",
+                        "secondary-fixed": "#e5e2e1",
+                        "on-secondary-fixed-variant": "#474646",
+                        "inverse-primary": "#ffb3b0",
+                        "surface-container-highest": "#e2e2e2",
+                        "surface-tint": "#bc1128",
+                        "on-tertiary-fixed-variant": "#464747",
+                        "secondary": "#5f5e5e",
+                        "on-primary": "#ffffff",
+                        "on-secondary-fixed": "#1c1b1b",
+                        "primary-fixed": "#ffdad8",
+                        "on-tertiary-container": "#dedcdc",
+                        "primary": "#97001b",
+                        "surface-container-high": "#e8e8e8",
+                        "primary-container": "#c0152a",
+                        "error-container": "#ffdad6",
+                        "on-surface-variant": "#5b403e",
+                        "on-error-container": "#93000a",
+                        "tertiary-fixed": "#e4e2e2",
+                        "secondary-container": "#e5e2e1",
+                        "surface": "#f9f9f9",
+                        "on-surface": "#1a1c1c",
+                        "on-tertiary-fixed": "#1b1c1c",
+                        "inverse-surface": "#2f3131",
+                        "on-background": "#1a1c1c",
+                        "surface-variant": "#e2e2e2",
+                        "outline": "#906f6d",
+                        "tertiary": "#494949",
+                        "on-tertiary": "#ffffff",
+                        "surface-container": "#eeeeee",
+                        "background": "#f9f9f9",
+                        "surface-dim": "#dadada",
+                        "on-secondary-container": "#656464",
+                        "surface-bright": "#f9f9f9",
+                        "secondary-fixed-dim": "#c8c6c5",
+                        "on-secondary": "#ffffff",
+                        "on-primary-container": "#ffd2d0",
+                        "tertiary-fixed-dim": "#c7c6c6",
+                        "on-error": "#ffffff",
+                        "error": "#ba1a1a"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "margin-page": "40px",
+                        "container-padding": "24px",
+                        "gap-large": "32px",
+                        "stack-compact": "8px",
+                        "gap-default": "16px"
+                    },
+                    "fontFamily": {
+                        "display-lg-mobile": ["Lexend"],
+                        "body-lg": ["Lexend"],
+                        "body-md": ["Lexend"],
+                        "headline-sm": ["Lexend"],
+                        "display-lg": ["Lexend"],
+                        "headline-md": ["Lexend"],
+                        "label-mono": ["Lexend"],
+                        "body-sm": ["Lexend"]
+                    },
+                    "fontSize": {
+                        "display-lg-mobile": ["40px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                        "headline-sm": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                        "display-lg": ["64px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "headline-md": ["28px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                        "label-mono": ["12px", {"lineHeight": "1.2", "fontWeight": "600"}],
+                        "body-sm": ["14px", {"lineHeight": "1.4", "fontWeight": "400"}]
+                    }
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background text-on-background selection:bg-primary-container selection:text-white">
+<!-- Top Navigation (Mobile/Tablet Only) -->
+<header class="lg:hidden flex justify-between items-center px-4 h-16 sticky top-0 z-50 bg-surface/80 backdrop-blur-md border-b border-surface-container-high">
+<h1 class="font-display-lg-mobile text-display-lg-mobile font-bold text-primary">Editorial Pulse</h1>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-on-surface cursor-pointer" data-icon="mail">mail</span>
+<span class="material-symbols-outlined text-on-surface cursor-pointer" data-icon="notifications">notifications</span>
+<div class="w-8 h-8 rounded-full overflow-hidden border border-outline-variant">
+<img alt="User profile avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDVETkyAOthesDiLdrE3vc8CD9JOoU1SQuzQIhRKmUooZ4jyXXhkaIwnuWbwND5vl85PZNUKKRQYmM9S8F3pGgCFJ4pOEFObo6dyc73WDFjfTVymbGDprH4we1lf6HNvJjE7HPkg4uXZ8e-JlxzeAOs_GHVEARSda6PzQ-51ZR6lYqsDYbvB2LWKul5jOOWPKj20yEgO4SGUf2-5K0oAUdQDObI-YPckjZ5BvqyrbRHZA86-eCLN3ml_Nk7OQg_pdUAb8sujNtLN6kE"/>
+</div>
+</div>
+</header>
+<div class="max-w-[1440px] mx-auto flex flex-row min-h-screen relative">
+<!-- Left Sidebar (Desktop Only) -->
+<aside class="hidden lg:flex flex-col py-margin-page px-6 gap-large h-screen sticky top-0 w-64 border-r border-surface-container-high bg-surface">
+<div class="mb-8">
+<h1 class="font-display-lg text-headline-xl font-bold text-primary leading-tight">Editorial<br/>Pulse</h1>
+</div>
+<nav class="flex flex-col gap-4">
+<a class="flex items-center gap-4 font-bold border-l-4 border-primary pl-4 text-on-surface transition-transform active:scale-95" href="#">
+<span class="material-symbols-outlined" data-icon="home" style="font-variation-settings: 'FILL' 1;">home</span>
+<span class="font-body-md text-body-md">Home</span>
+</a>
+<a class="flex items-center gap-4 pl-5 text-on-surface-variant hover:text-primary transition-colors active:scale-95" href="#">
+<span class="material-symbols-outlined" data-icon="explore">explore</span>
+<span class="font-body-md text-body-md">Explore</span>
+</a>
+<a class="flex items-center gap-4 pl-5 text-on-surface-variant hover:text-primary transition-colors active:scale-95" href="#">
+<span class="material-symbols-outlined" data-icon="group">group</span>
+<span class="font-body-md text-body-md">Groups</span>
+</a>
+<a class="flex items-center gap-4 pl-5 text-on-surface-variant hover:text-primary transition-colors active:scale-95" href="#">
+<span class="material-symbols-outlined" data-icon="mail">mail</span>
+<span class="font-body-md text-body-md">Messages</span>
+</a>
+<a class="flex items-center gap-4 pl-5 text-on-surface-variant hover:text-primary transition-colors active:scale-95" href="#">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+<span class="font-body-md text-body-md">Notifications</span>
+</a>
+<a class="flex items-center gap-4 pl-5 text-on-surface-variant hover:text-primary transition-colors active:scale-95" href="#">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="font-body-md text-body-md">Profile</span>
+</a>
+<a class="flex items-center gap-4 pl-5 text-on-surface-variant hover:text-primary transition-colors active:scale-95" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-body-md text-body-md">Settings</span>
+</a>
+</nav>
+<button class="mt-8 crimson-gradient text-white py-4 rounded-xl font-bold font-body-md text-body-md editorial-shadow hover:brightness-110 transition-all active:scale-95">
+            New Post
+        </button>
+<div class="mt-auto flex items-center gap-3 p-3 rounded-xl bg-surface-container-low border border-surface-container-high">
+<img alt="User avatar" class="w-10 h-10 rounded-full" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA87zbw5jz4CZ0AoEf6qOled9MMODystKN_23zPKlVVZNyIQaXWvqw3buQBbHv1c4rbtYGUpyOSSPHcoNpOyOeVUqzoMjxCDLuMxOiDjeio-F_XVgpMcBdQsFQ_s4H-vZZrurkKNMMvHu-3JnMLyOvUo-1uMfZuZexGZ0YpQNHDj4e9bagBLoIlsvaaxJHemOHeTIb-Kmfphv71wF_0kOOvteGpLTw-FrvBHvqlDcx-sOzWhbY6DBNUK6eKc5GSd29-v5CbtkWDzl0i"/>
+<div class="overflow-hidden">
+<p class="font-bold text-on-surface truncate">Editorial Pulse</p>
+<p class="text-xs text-on-surface-variant truncate">@username</p>
+</div>
+</div>
+</aside>
+<!-- Main Feed Center -->
+<main class="flex-1 min-w-0 bg-background lg:max-w-2xl border-r border-surface-container-high">
+<!-- Horizontal Story Strip -->
+<section class="py-6 border-b border-surface-container-high">
+<div class="flex gap-6 overflow-x-auto px-container-padding hide-scrollbar">
+<!-- My Story -->
+<div class="flex-shrink-0 flex flex-col items-center gap-2 cursor-pointer group">
+<div class="relative p-1 rounded-full border-2 border-dashed border-outline-variant group-hover:border-primary transition-colors">
+<div class="w-16 h-16 rounded-full overflow-hidden bg-surface-container">
+<span class="material-symbols-outlined flex items-center justify-center w-full h-full text-on-surface-variant" data-icon="add">add</span>
+</div>
+</div>
+<span class="font-label-mono text-label-sm text-on-surface-variant">Pulse</span>
+</div>
+<!-- Other Stories -->
+<div class="flex-shrink-0 flex flex-col items-center gap-2 cursor-pointer group">
+<div class="relative p-0.5 rounded-full ring-2 ring-primary ring-offset-4 ring-offset-background">
+<div class="w-16 h-16 rounded-full overflow-hidden">
+<img alt="Story user" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA8aDJbwWzG2qvc5UlZbnnkoajFIEaE9YBfCKrdqbp8800eGFMQt7qV_yufnGeyPd9I1MR4Cy5yMzzcAy6gsdvm26Jldrb-DCdSXfvUAFSwhx-OvR2AYU8cs6GRFWZVD5U-9aTZOOxMG36DnjjVq334L6kthVSBqqkjNlNdeso1fqDLawL3K98ifZmnXQYumb8_2eDsMX9buJWhGY-eZR8teO_5_CCIKNiolYNDHE2Kv4uE7ouh0belGTVDx9FSggM579zWzunqsHGi"/>
+</div>
+</div>
+<span class="font-label-mono text-label-sm text-on-surface">Vogue_X</span>
+</div>
+<div class="flex-shrink-0 flex flex-col items-center gap-2 cursor-pointer group">
+<div class="relative p-0.5 rounded-full ring-2 ring-primary ring-offset-4 ring-offset-background">
+<div class="w-16 h-16 rounded-full overflow-hidden">
+<img alt="Story user" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCuNvagGznUtTpZNzEivuwY5VIo72XdNzpK6pWu3QC9O5m1CCxhNB78W10P3gbSnu6WG2jEmSSUYVLbavYpEmW6vp9Guodio6zxyEvWa_hVgSIV1fLSA8lmZ8zAMuda_t__qZTHQLUdp8oUcib_3QuLPdG4ClBFcBXWUzrl2xZme0VG8h_lOooxwukQJmKRnZVxzAwgVMhKpG2JuQYZqv1AihbXDAGwhHyeiC9tIVl8kXE2m-adTehm2Ga8UDhdpzdZ5FTBaN3eQNTP"/>
+</div>
+</div>
+<span class="font-label-mono text-label-sm text-on-surface">Elena_D</span>
+</div>
+<div class="flex-shrink-0 flex flex-col items-center gap-2 cursor-pointer group">
+<div class="relative p-0.5 rounded-full ring-2 ring-primary ring-offset-4 ring-offset-background">
+<div class="w-16 h-16 rounded-full overflow-hidden">
+<img alt="Story user" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDKq1m_c5QlT6f54jPFmIUtGKjTSH6NgXHbGKs3q2LQhhIE84jd1DdIXjkGVNkNkBTzNkSqz9557trbtBW5usDVUJfSyGdyXUMGw0G6oEbU2HI6AkmR6XmCTypern_bUJSRNJpWfgws7Uv3UJ7vloM3Ui0qlDlj0wEtRlfxEk54AJ4nqpYEHHibPbyuduMqeYtBaxPq0LC9VItK49CjGBohzMg7fbuSlVtPUnpBMXSNeSkP_hOqI3keGbJCqdbWm_b1p16oH-7_rLad"/>
+</div>
+</div>
+<span class="font-label-mono text-label-sm text-on-surface">Modern_M</span>
+</div>
+<div class="flex-shrink-0 flex flex-col items-center gap-2 cursor-pointer group">
+<div class="relative p-0.5 rounded-full ring-2 ring-primary ring-offset-4 ring-offset-background">
+<div class="w-16 h-16 rounded-full overflow-hidden">
+<img alt="Story user" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBv2lK3KEhJH924MKKSAb3Zh76zymrYfYnPyCTSQlqs4T-UTMQRr_IIM21KjSGUvFrSZbQPobYv9-x7rMGQhONjAtWBNAllz0FgWBnJD9zTNSOWImoOTDodD0BRdw2A_tZjzKGLNUvQCuP42dkd4t6JoKsD_E7u5yWD__oH1dN5GUm1Q6JGdptA2bH0qPpnIuqu9q71LQG8IQzZw4WVqBJNevl6s4aj5Vwm4TeIy0uzK_-tOhQQoQ7eFcx88zRSetLOYPcKnSq6bR_h"/>
+</div>
+</div>
+<span class="font-label-mono text-label-sm text-on-surface">Vision</span>
+</div>
+</div>
+</section>
+<!-- Posts Feed -->
+<section class="flex flex-col">
+<!-- Post 1: Full Bleed Photo -->
+<article class="p-container-padding border-b border-surface-container-high space-y-4 hover:bg-surface-container-lowest transition-colors group">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-3">
+<img alt="User avatar" class="w-10 h-10 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCXMcpkGyZGR98QmcRiQY8B41AR8peIkInc4yAEs0iihJ29uufHYPcvgwPfE9Z7XF3sM5MGGW3gv21N0_PYTGif--YeQMiwzkfjZLz966tPk-oidzVzzF7gkHYYYZVRIErRTAg502arIXwfHfpiwvZVDCLJEWnWBmXhHqVtraoZkIY8dCWdtp_cPrzEJJwfU3gL1Tw4sn41vtwB6XLqnOuIln_ZQADdtqS9G1cs_fZ6xtLxulfsv6ftklu1kXjOxXrRGd_Ib9GqTAQO"/>
+<div>
+<h3 class="font-bold font-body-md text-on-surface">Vogue_X <span class="text-primary ml-1">●</span></h3>
+<p class="text-label-sm text-on-surface-variant uppercase tracking-wider">2 HOURS AGO</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer" data-icon="more_horiz">more_horiz</span>
+</div>
+<div class="rounded-xl overflow-hidden border border-surface-container-high editorial-shadow group-hover:border-primary/30 transition-colors">
+<img alt="Fashion Editorial" class="w-full aspect-video object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC0hijUBiUOGI7fYdeKWon08Fq4j51zoZxfBXc6tVvFMVpWZDi_MiesaN3suTZqJ4HoiG5Yq1pE5qdiZENDhIh49wiqsj2Wdm38krO2Z8kIfl7gjJa2CUMtG0asn8kgq2lWCb9ozPd59F6f6wZszlOzAl1DtBH9RThhsptz2KRb3ySzHmHCMO85nFjJ04uzrin3xQL-847I2BvJfb0AKiOjc4oryzNxHhKlnLlRXt8-a5QT1iMWYVUGjn9xtz7xmDGTk2Ka34yPy5uc"/>
+</div>
+<div class="space-y-2">
+<h2 class="font-headline-sm text-headline-sm leading-tight text-on-surface">The Red Shift: Why Crimson is the Only Color that Matters this Autumn.</h2>
+<p class="font-body-md text-body-md text-on-surface-variant line-clamp-2">Exploring the deep psychological impact of high-saturation reds in the modern urban landscape. More than just a trend, it's a movement...</p>
+</div>
+<div class="flex items-center justify-between pt-2">
+<div class="flex items-center gap-6">
+<button class="flex items-center gap-2 group/btn">
+<span class="material-symbols-outlined text-on-surface-variant group-hover/btn:text-primary transition-colors" data-icon="favorite">favorite</span>
+<span class="font-label-sm text-on-surface">1.2K</span>
+</button>
+<button class="flex items-center gap-2 group/btn">
+<span class="material-symbols-outlined text-on-surface-variant group-hover/btn:text-primary transition-colors" data-icon="chat_bubble">chat_bubble</span>
+<span class="font-label-sm text-on-surface">84</span>
+</button>
+<button class="flex items-center gap-2 group/btn">
+<span class="material-symbols-outlined text-on-surface-variant group-hover/btn:text-primary transition-colors" data-icon="share">share</span>
+</button>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary" data-icon="bookmark">bookmark</span>
+</div>
+</article>
+<!-- Post 2: Text Only / Quote -->
+<article class="p-container-padding border-b border-surface-container-high space-y-6 bg-surface-container-low/50">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full crimson-gradient flex items-center justify-center font-bold text-white text-xs">EP</div>
+<div>
+<h3 class="font-bold font-body-md text-on-surface">Editorial Pulse</h3>
+<p class="text-label-sm text-on-surface-variant uppercase tracking-wider">4 HOURS AGO</p>
+</div>
+</div>
+<div class="relative py-8 px-6 border-l-4 border-primary bg-surface-container-lowest editorial-shadow rounded-r-xl">
+<span class="material-symbols-outlined absolute -top-4 left-6 text-primary text-5xl opacity-10" data-icon="format_quote" style="font-variation-settings: 'FILL' 1;">format_quote</span>
+<p class="font-headline-md text-headline-lg leading-relaxed text-on-surface relative z-10 italic">
+                        "True style is a quiet conversation between your intellect and your environment. It doesn't scream; it commands attention by its mere presence."
+                    </p>
+<cite class="block mt-4 font-label-sm text-primary uppercase tracking-widest font-bold">— ALISTER CRAIN, Creative Director</cite>
+</div>
+<div class="flex items-center justify-between pt-2">
+<div class="flex items-center gap-6">
+<button class="flex items-center gap-2 text-primary">
+<span class="material-symbols-outlined" data-icon="favorite" style="font-variation-settings: 'FILL' 1;">favorite</span>
+<span class="font-label-sm">4.8K</span>
+</button>
+<button class="flex items-center gap-2">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="chat_bubble">chat_bubble</span>
+<span class="font-label-sm text-on-surface">156</span>
+</button>
+</div>
+</div>
+</article>
+<!-- Post 3: Bento Style Card -->
+<article class="p-container-padding border-b border-surface-container-high space-y-4">
+<div class="flex items-center gap-3">
+<img alt="User" class="w-10 h-10 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDKPbe7e2eF0eMozwHkT57oXGRQ0UPFNHEsS8mBRGU6MmZ-0XEhoP11JqgDjQkEzVKlg1udehumC0KAHegwxALyM3fmuDxoshn83U4VoXnznB44e-Id671qdxz8nG97_YDBTSkkYJYLRXflqRNwUXJ-QeIDUaViogONavD59ptl0BwuJ5XJXMyKzTmxIo09uBiqFfVAzTmCIcSRhedprWDm3L8GBUsKe90tkVl9jHw-Ec4aymVG6GAzXt2NhdH-J0PirJMIeRvXtxfX"/>
+<div>
+<h3 class="font-bold font-body-md text-on-surface">Elena_D</h3>
+<p class="text-label-sm text-on-surface-variant uppercase tracking-wider">6 HOURS AGO</p>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-2 h-96">
+<div class="h-full rounded-xl overflow-hidden border border-surface-container-high">
+<img alt="Gallery 1" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBXHYXR716id9QErLuisZnB3Ivgb1vf4GYogBEE6b6f98rJbr7-sq_OJdYHRhnN3WciynXI43n4nPCiKQzSaZLX-mBEVgUI1PQcWM0kQIODi3vOH0SXjLjd-xnA-Z_zj_Au_z7VUt5sk9XeMe7CjV4m79JZ1Jds05S_35x3VRWCk7wbqQwgW_Ntdf9Z_a4EDcFf6Rg-H-_yMlipMJPmN36I0x2ZI8_DWA4CyvxuKCEjCrmqY12ZMEIeW5V4y2fsKuoljXQRvtwaFYK-"/>
+</div>
+<div class="grid grid-rows-2 gap-2 h-full">
+<div class="rounded-xl overflow-hidden border border-surface-container-high">
+<img alt="Gallery 2" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA13NFCa2jJJqR6q9VIkbcIH5VPXQaj0QdRSRikjZZBxhfEwAe-OvcoM1HhiFSi0XpVCEY0izbDoYlmk1JECdDcKEIF7_fJuh27SUGVxNTAC6qYYPuFLWgLhnk9NgWcq4iO29OmcbMAmxz-wmnCSZz9rBOUrPvc1N-Sq9217GKeFiG6bxOxQCMJcDh5ix0ggUPQzbYU2heTlxSeWQ_gOrUc3FmcTw0qXNIfbpbw7rMDkLQYKlNAwkMK2Ur4vK9dx62vVh4Un0oR2VDN"/>
+</div>
+<div class="rounded-xl overflow-hidden border border-surface-container-high bg-surface-container relative">
+<img alt="Gallery 3" class="w-full h-full object-cover opacity-50" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDU5LVHfthWtNvEpwD8nD3J4jwLS96YnUQsp9Qu4bibAUJ1kQFgCyE46bnqbmEPFcht9d3dD1ucIddabNpKcoGZIPwiNAHivPBQ_wcVdDsdrXYmgBMylDdW-Fbk2XiYAYI8hsI3mDVQQneqPqi_8_4e3dbUViE72vqA_fVh22HJpNB0qdT8UD1GJQTJYmqOXkMSw51o5cdHc4HaNH9O_GAejeYNyRruTHjSWr47njzh5SXgOJwvL3VPzpcXPs3hi7ijgbqjogH5awet"/>
+<div class="absolute inset-0 flex items-center justify-center">
+<span class="font-headline-sm text-headline-sm text-on-surface">+3</span>
+</div>
+</div>
+</div>
+</div>
+<p class="font-body-md text-body-md text-on-surface">Behind the scenes of the 'Urban Echo' series. Finding beauty in the sharpest corners of the city.</p>
+</article>
+</section>
+</main>
+<!-- Right Sidebar (Desktop Only) -->
+<aside class="hidden xl:flex flex-col py-margin-page px-8 gap-large w-96 sticky top-0 h-screen bg-surface">
+<!-- Search -->
+<div class="relative group">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant group-focus-within:text-primary transition-colors" data-icon="search">search</span>
+<input class="w-full bg-surface-container-low border border-surface-container-high rounded-full py-3 pl-12 pr-4 focus:ring-1 focus:ring-primary focus:border-primary outline-none text-body-sm transition-all" placeholder="Search Pulse..." type="text"/>
+</div>
+<!-- Trending Section -->
+<section class="bg-surface-container-low border border-surface-container-high rounded-xl p-container-padding space-y-6">
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Trending Topics</h2>
+<div class="space-y-4">
+<div class="group cursor-pointer">
+<p class="text-label-sm text-on-surface-variant uppercase tracking-wider">FASHION • TRENDING</p>
+<p class="font-bold text-on-surface group-hover:text-primary transition-colors">#CrimsonRevival</p>
+<p class="text-xs text-on-surface-variant">12.4K Posts</p>
+</div>
+<div class="group cursor-pointer">
+<p class="text-label-sm text-on-surface-variant uppercase tracking-wider">DESIGN • TRENDING</p>
+<p class="font-bold text-on-surface group-hover:text-primary transition-colors">Bento Layouts</p>
+<p class="text-xs text-on-surface-variant">8.2K Posts</p>
+</div>
+<div class="group cursor-pointer">
+<p class="text-label-sm text-on-surface-variant uppercase tracking-wider">EDITORIAL • TRENDING</p>
+<p class="font-bold text-on-surface group-hover:text-primary transition-colors">Modern Typography</p>
+<p class="text-xs text-on-surface-variant">15.1K Posts</p>
+</div>
+</div>
+<button class="text-primary font-label-sm font-bold hover:underline">SHOW MORE</button>
+</section>
+<!-- Who to Follow -->
+<section class="bg-surface-container-low border border-surface-container-high rounded-xl p-container-padding space-y-6">
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Curated Voices</h2>
+<div class="space-y-4">
+<div class="flex items-center justify-between group">
+<div class="flex items-center gap-3">
+<img alt="Suggested user" class="w-10 h-10 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCiUygRhqfE-_ranqe3p34xtKwwuoGjsXjJVJJt1Th9nAsrcfmb9tWijy_g_TSHmC5axAVAZraWPqyL0xG0HbS5yi6lkbzg5urVrpmgEwjrXTg4nBRLGq5McbvThMxlC34qsbSY9ZntO-e_IF9NlpnHris6Y8vQKXUODxzm7b3zJMUo27LF3DeqykKKPYOxnV6dji1JADgbTxyNkybQdwtQmuWefzQztX1-PrtrT-ZdAxiiFlVJoh7fCMtXtjJ9OdcXwVNKzkRRyYq_"/>
+<div>
+<p class="font-bold text-sm text-on-surface">Modern_M</p>
+<p class="text-xs text-on-surface-variant">@modern.minimalist</p>
+</div>
+</div>
+<button class="bg-on-surface text-surface py-1 px-4 rounded-full text-xs font-bold hover:bg-primary hover:text-white transition-colors">Follow</button>
+</div>
+<div class="flex items-center justify-between group">
+<div class="flex items-center gap-3">
+<img alt="Suggested user" class="w-10 h-10 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDQdG60pdp4BqWvAI8b_mysLKGV_P8BQlOuFXYaNpBiIWISL3f8iabHLpeVXlQC2xynSrvWdgojemFZEPd6D9tC3CCbNolzJ8JtTSuK8z2P9jMfyVWJZ589tw9WQn8dHHF84HPNYqCup-Hescdoprf1KD3b6wVdaKc83-dqIbbr-wm3u9h0ItaQb5ohcNs6Bw808DlN1Il-kEBCt_qkr_JGRmY_FXXi7k_VUbuNuLBhkSqR2vSga0lrYgWNL12TS9kRlmBs7m6Q3wWK"/>
+<div>
+<p class="font-bold text-sm text-on-surface">Visionary</p>
+<p class="text-xs text-on-surface-variant">@vision.lab</p>
+</div>
+</div>
+<button class="bg-on-surface text-surface py-1 px-4 rounded-full text-xs font-bold hover:bg-primary hover:text-white transition-colors">Follow</button>
+</div>
+<div class="flex items-center justify-between group">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-primary flex items-center justify-center font-bold text-white text-xs">A</div>
+<div>
+<p class="font-bold text-sm text-on-surface">Archive_01</p>
+<p class="text-xs text-on-surface-variant">@fashion.archive</p>
+</div>
+</div>
+<button class="bg-on-surface text-surface py-1 px-4 rounded-full text-xs font-bold hover:bg-primary hover:text-white transition-colors">Follow</button>
+</div>
+</div>
+<button class="text-primary font-label-sm font-bold hover:underline">VIEW ALL</button>
+</section>
+<!-- Footer Links -->
+<footer class="mt-4 px-2 space-y-2">
+<div class="flex flex-wrap gap-x-4 gap-y-1 text-xs text-on-surface-variant font-label-sm uppercase tracking-wider">
+<a class="hover:text-primary" href="#">About</a>
+<a class="hover:text-primary" href="#">Terms of Service</a>
+<a class="hover:text-primary" href="#">Privacy Policy</a>
+<a class="hover:text-primary" href="#">Cookie Policy</a>
+<a class="hover:text-primary" href="#">Accessibility</a>
+</div>
+<p class="text-[10px] text-outline-variant font-label-sm uppercase tracking-widest">© 2024 Editorial Pulse Inc.</p>
+</footer>
+</aside>
+</div>
+<!-- Bottom Navigation (Mobile Only) -->
+<nav class="lg:hidden fixed bottom-0 w-full z-50 flex justify-around items-center h-16 pb-safe bg-surface/90 backdrop-blur-xl border-t border-surface-container-high shadow-lg">
+<a class="flex flex-col items-center justify-center text-primary active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="home" style="font-variation-settings: 'FILL' 1;">home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-variant/20 active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="search">search</span>
+</a>
+<a class="flex flex-col items-center justify-center text-primary active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined text-4xl" data-icon="add_circle">add_circle</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-variant/20 active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-variant/20 active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+</a>
+</nav>
+<script>
+    // Simple Interaction logic
+    document.querySelectorAll('button, a').forEach(el => {
+        el.addEventListener('mousedown', () => {
+            el.classList.add('scale-95');
+        });
+        el.addEventListener('mouseup', () => {
+            el.classList.remove('scale-95');
+        });
+        el.addEventListener('mouseleave', () => {
+            el.classList.remove('scale-95');
+        });
+    });
+
+    // Sticky header behavior on scroll
+    let lastScroll = 0;
+    window.addEventListener('scroll', () => {
+        const currentScroll = window.pageYOffset;
+        const header = document.querySelector('header');
+        if (header) {
+            if (currentScroll > lastScroll && currentScroll > 64) {
+                header.style.transform = 'translateY(-100%)';
+            } else {
+                header.style.transform = 'translateY(0)';
+            }
+        }
+        lastScroll = currentScroll;
+    });
+</script>
+</body></html>
