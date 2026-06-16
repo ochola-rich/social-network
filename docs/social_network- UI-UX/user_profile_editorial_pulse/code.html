@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        "colors": {
+                "tertiary-container": "#616161",
+                "surface-container-lowest": "#ffffff",
+                "inverse-on-surface": "#f0f1f1",
+                "on-primary-fixed-variant": "#93001a",
+                "outline-variant": "#e4bdbb",
+                "surface-container-low": "#f3f3f3",
+                "primary-fixed-dim": "#ffb3b0",
+                "on-primary-fixed": "#410006",
+                "secondary-fixed": "#e5e2e1",
+                "on-secondary-fixed-variant": "#474646",
+                "inverse-primary": "#ffb3b0",
+                "surface-container-highest": "#e2e2e2",
+                "surface-tint": "#bc1128",
+                "on-tertiary-fixed-variant": "#464747",
+                "secondary": "#5f5e5e",
+                "on-primary": "#ffffff",
+                "on-secondary-fixed": "#1c1b1b",
+                "primary-fixed": "#ffdad8",
+                "on-tertiary-container": "#dedcdc",
+                "primary": "#97001b",
+                "surface-container-high": "#e8e8e8",
+                "primary-container": "#c0152a",
+                "error-container": "#ffdad6",
+                "on-surface-variant": "#5b403e",
+                "on-error-container": "#93000a",
+                "tertiary-fixed": "#e4e2e2",
+                "secondary-container": "#e5e2e1",
+                "surface": "#f9f9f9",
+                "on-surface": "#1a1c1c",
+                "on-tertiary-fixed": "#1b1c1c",
+                "inverse-surface": "#2f3131",
+                "on-background": "#1a1c1c",
+                "surface-variant": "#e2e2e2",
+                "outline": "#906f6d",
+                "tertiary": "#494949",
+                "on-tertiary": "#ffffff",
+                "surface-container": "#eeeeee",
+                "background": "#f9f9f9",
+                "surface-dim": "#dadada",
+                "on-secondary-container": "#656464",
+                "surface-bright": "#f9f9f9",
+                "secondary-fixed-dim": "#c8c6c5",
+                "on-secondary": "#ffffff",
+                "on-primary-container": "#ffd2d0",
+                "tertiary-fixed-dim": "#c7c6c6",
+                "on-error": "#ffffff",
+                "error": "#ba1a1a"
+        },
+        "borderRadius": {
+                "DEFAULT": "0.125rem",
+                "lg": "0.25rem",
+                "xl": "0.5rem",
+                "full": "0.75rem"
+        },
+        "spacing": {
+                "margin-mobile": "20px",
+                "margin-desktop": "64px",
+                "section-gap": "80px",
+                "base": "8px",
+                "content-gap": "24px",
+                "gutter": "24px",
+                "container-padding": "24px",
+                "gap-large": "32px",
+                "gap-default": "16px",
+                "margin-page": "40px"
+        },
+        "fontFamily": {
+                "display-lg": ["Lexend"],
+                "body-lg": ["Lexend"],
+                "headline-xl": ["Lexend"],
+                "headline-lg": ["Lexend"],
+                "headline-md": ["Lexend"],
+                "headline-sm": ["Lexend"],
+                "label-md": ["Lexend"],
+                "display-lg-mobile": ["Lexend"],
+                "label-sm": ["Lexend"],
+                "label-mono": ["Lexend"],
+                "body-md": ["Lexend"],
+                "body-sm": ["Lexend"]
+        },
+        "fontSize": {
+                "display-lg": ["64px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                "headline-xl": ["36px", {"lineHeight": "1.2", "fontWeight": "600"}],
+                "headline-lg": ["28px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                "headline-sm": ["20px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                "label-md": ["14px", {"lineHeight": "1.4", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                "display-lg-mobile": ["40px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                "label-sm": ["12px", {"lineHeight": "1.2", "fontWeight": "600"}],
+                "label-mono": ["12px", {"lineHeight": "1.2", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}]
+        }
+},
+    },
+  }
+</script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+    .active-nav-line {
+      box-shadow: 0px 4px 12px rgba(192, 21, 42, 0.2);
+    }
+    .glass-nav {
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+    .pulse-hover:hover {
+      box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.05);
+      border-color: #c0152a;
+    }
+    .crimson-gradient-overlay {
+      background: linear-gradient(to bottom, transparent, rgba(249, 249, 249, 0.6), #f9f9f9);
+    }
+    .red-glow-btn:hover {
+      box-shadow: 0px 4px 16px rgba(192, 21, 42, 0.4);
+    }
+  </style>
+</head>
+<body class="bg-background text-on-surface font-body-md overflow-x-hidden">
+<!-- Mobile Top Bar -->
+<header class="lg:hidden flex justify-between items-center px-4 h-16 sticky top-0 z-50 bg-surface/80 glass-nav border-b border-outline-variant">
+<h1 class="font-display-lg-mobile text-display-lg-mobile font-bold text-primary">Pulse</h1>
+<div class="flex gap-4 items-center">
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer" data-icon="notifications">notifications</span>
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer" data-icon="mail">mail</span>
+<div class="w-8 h-8 rounded-full bg-surface-container overflow-hidden border border-outline-variant">
+<img alt="User avatar" data-alt="A professional close-up portrait" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA-4oOfnE8mXHmYOXBm1wxLfovdCgsmztZbfuYFTxDR9efYDGCbjqsmYJwjrsDHzIzeZWuRYsUDgBif1nqN0Frtp5CAIrKuNUlClhSKfFKs-fY2PgXozn0lKH5MRN0ZIWfDsoA6UlvCsZvjPQ9M4dwmQoc-XnJGduY3i4_s2xOJqT6QOT21V8Ui7Qpe3YilEwSRp4MKwqXbofv522eEFEnXyvKdMjM1eeePd2FDFEViPga4eiAxGvcxqpgGGYy1wqgxfmUP9J7f9gTh"/>
+</div>
+</div>
+</header>
+<div class="max-w-[1440px] mx-auto flex">
+<!-- Desktop Side Navigation -->
+<aside class="hidden lg:flex flex-col py-margin-page px-6 gap-large h-screen sticky top-0 w-64 border-r border-outline-variant bg-surface-container-lowest">
+<div class="mb-4">
+<h1 class="font-display-lg text-headline-xl font-bold text-primary mb-1">Pulse</h1>
+<p class="font-body-sm text-on-surface-variant opacity-70">Curated Expression</p>
+</div>
+<nav class="flex flex-col gap-2">
+<a class="flex items-center gap-4 py-2 transition-all hover:text-primary text-on-surface-variant pl-5" href="#">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+<span class="font-body-md">Home</span>
+</a>
+<a class="flex items-center gap-4 py-2 transition-all hover:text-primary text-on-surface-variant pl-5" href="#">
+<span class="material-symbols-outlined" data-icon="explore">explore</span>
+<span class="font-body-md">Explore</span>
+</a>
+<a class="flex items-center gap-4 py-2 transition-all hover:text-primary text-on-surface-variant pl-5" href="#">
+<span class="material-symbols-outlined" data-icon="group">group</span>
+<span class="font-body-md">Groups</span>
+</a>
+<a class="flex items-center gap-4 py-2 transition-all hover:text-primary text-on-surface-variant pl-5" href="#">
+<span class="material-symbols-outlined" data-icon="mail">mail</span>
+<span class="font-body-md">Messages</span>
+</a>
+<a class="flex items-center gap-4 py-2 transition-all hover:text-primary text-on-surface-variant pl-5" href="#">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+<span class="font-body-md">Notifications</span>
+</a>
+<a class="flex items-center gap-4 py-2 transition-all text-on-surface font-bold border-l-4 border-primary pl-4 active-nav-line" href="#">
+<span class="material-symbols-outlined" data-icon="person" style="font-variation-settings: 'FILL' 1;">person</span>
+<span class="font-body-md">Profile</span>
+</a>
+<a class="flex items-center gap-4 py-2 transition-all hover:text-primary text-on-surface-variant pl-5" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-body-md">Settings</span>
+</a>
+</nav>
+<div class="mt-auto">
+<button class="w-full bg-primary-container text-on-primary font-bold py-4 rounded-xl red-glow-btn transition-all active:scale-95 shadow-sm">
+          New Post
+        </button>
+<div class="mt-8 flex items-center gap-3 px-2">
+<img alt="User profile avatar" class="w-10 h-10 rounded-full border border-outline-variant" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDAQEhZbl9aOaORmvGhHpLIswdJ051XDT6jiwopQx3_PhkZRzuZDTPbVnRMpIlQ8cVExIIqxTrAaPmmANxaAZybx4_zw5zdIMXxOngqSeIuXbsGjv7E7-lppHE0ob0LHXIZZD__z6xot-LWVxFUhNxaf9YySHzNW4EHV47eAaz15kdGm4i_nQqaxnByB6IY6By-qs_trRwxnv1fTsSf0TC0-Hh4ghEWr9ZF63KRLV9eY8Jo7YamogN80so2Spv3d35JFofWc4IchEe2"/>
+<div>
+<p class="font-body-md font-bold text-on-surface">Editorial Pulse</p>
+<p class="font-label-mono text-on-surface-variant text-[10px]">@username</p>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="flex-grow min-h-screen bg-background border-r border-outline-variant">
+<!-- Profile Header Section -->
+<section class="relative">
+<div class="h-64 md:h-80 w-full overflow-hidden relative">
+<img alt="Cover photo" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAKMxBSRm1vWsJYBxq2JsuIXGFuCHjuKpgojEfaOW0xF--Ihr9kg0GuV8rUt4H7Kb7YsYkRMLhKVYPbm7BOkzB_47nXdLPg_9PG9lG3ibDLEr1G4xaMbeOzztiq7yoh7fooqQFuAc_fJ6q2dpHUDjEHQ_c6pkX3YJmSDJdwyVHgsXY2zth6VviQ1RYBZtyFZqUbWULLqMu7YLChTSBQAmTbQL_VSukn9KwCri7UPsXZ2z0saGJI5TbY8t48WRXMKO0so-pnRNO1lyJ9"/>
+<div class="absolute inset-0 crimson-gradient-overlay"></div>
+</div>
+<div class="px-container-padding -mt-16 relative z-10 flex flex-col md:flex-row md:items-end justify-between gap-6">
+<div class="flex flex-col md:flex-row items-start md:items-end gap-6">
+<div class="w-32 h-32 md:w-40 md:h-40 rounded-full border-4 border-background bg-surface-container overflow-hidden shadow-xl">
+<img alt="Avatar" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCTsthKJsLmsRY6sWpIVGbPDk-GXo5PZK2nHnL-aMJLs2UBwve7dGGu46MMZ7reDAFUlaNd1_uHTDyebbvU8Qg0pzEbyHsGUAIJlkriJCn2tiSfxE-_Mr3F7cX6KT3dH6nWXUpDOOit6cyPsVOpo2AxPwENzsQGK-cFbonig-z71wDIzec48nVpJ_aMC8h9PdrnIiQ_yCiJoLO5jdOo5FVU_tBITc9-L23yQ9qY7HeD170pdufqJEeLr4qYOw0-rZT-sQ3euPDkTvwm"/>
+</div>
+<div class="pb-2">
+<h2 class="font-display-lg text-display-lg-mobile md:text-headline-xl font-bold leading-tight text-on-surface">Editorial Pulse</h2>
+<p class="font-label-mono text-primary text-body-md tracking-wider">@editor_in_chief</p>
+</div>
+</div>
+<div class="flex gap-3 pb-2">
+<button class="px-6 py-2 bg-primary-container text-on-primary font-bold rounded-lg red-glow-btn transition-all active:scale-95 shadow-sm">Follow</button>
+<button class="p-2 border border-outline-variant bg-surface-container-lowest rounded-lg hover:border-primary transition-colors text-on-surface">
+<span class="material-symbols-outlined block" data-icon="more_horiz">more_horiz</span>
+</button>
+</div>
+</div>
+<div class="px-container-padding mt-8">
+<p class="font-body-lg max-w-2xl text-on-surface-variant">
+            Curating the intersection of high fashion, brutalist architecture, and digital culture. 
+            Documenting the pulse of the creative underground. 
+            <span class="text-primary cursor-pointer font-medium hover:underline">pulse.com/journal</span>
+</p>
+<!-- Stats Row -->
+<div class="flex gap-8 mt-6 py-4 border-y border-outline-variant">
+<div>
+<span class="font-bold text-on-surface text-body-lg">1,248</span>
+<span class="font-label-mono text-on-surface-variant ml-1 uppercase text-[10px]">Posts</span>
+</div>
+<div>
+<span class="font-bold text-on-surface text-body-lg">42.5k</span>
+<span class="font-label-mono text-on-surface-variant ml-1 uppercase text-[10px]">Followers</span>
+</div>
+<div>
+<span class="font-bold text-on-surface text-body-lg">892</span>
+<span class="font-label-mono text-on-surface-variant ml-1 uppercase text-[10px]">Following</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Content Navigation Tabs -->
+<nav class="sticky top-0 lg:top-0 z-20 bg-surface/80 glass-nav border-b border-outline-variant mt-4 flex px-container-padding">
+<button class="px-6 py-4 font-label-mono text-primary border-b-2 border-primary transition-all font-bold">POSTS</button>
+<button class="px-6 py-4 font-label-mono text-on-surface-variant hover:text-on-surface transition-all">MEDIA</button>
+<button class="px-6 py-4 font-label-mono text-on-surface-variant hover:text-on-surface transition-all">GROUPS</button>
+<button class="px-6 py-4 font-label-mono text-on-surface-variant hover:text-on-surface transition-all">LIKES</button>
+</nav>
+<!-- Profile Grid Feed -->
+<div class="p-container-padding grid grid-cols-1 md:grid-cols-2 gap-gap-default pb-24 lg:pb-margin-page">
+<!-- Post Card 1 (Bento style feature) -->
+<article class="md:col-span-2 bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden pulse-hover transition-all group shadow-sm">
+<div class="flex flex-col md:flex-row h-full">
+<div class="md:w-1/2 h-64 md:h-auto overflow-hidden bg-surface-dim">
+<img alt="Editorial Fashion" class="w-full h-full object-cover grayscale opacity-90 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-700" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDk6ZkjPHi-3Wh8LBmIkfXu5UkOl2Wj0R_j5tOJtJh9AztkRRqYPqUvtsTTdjhz5UmTAQ5s3d1cF2xySvbwJZDaZsu6yA1Mc2Hopj-FNOx9ZHsKugq9JYKCoMc4gk3QdIhguWBIZIc1PuWNEsaZmOmmCYCExpFbvJGt-GckOLwYXxLjDzhpAavJk3_OhZFLR1ydWysRxwjr9yojJasv9H83u0lRbC-dha4BjRuij6TlHbO-ckDsa-6rquNqd91MqwqlCCN1g_6ulLuA"/>
+</div>
+<div class="md:w-1/2 p-container-padding flex flex-col justify-between">
+<div>
+<div class="flex justify-between items-start mb-4">
+<span class="font-label-mono text-primary bg-primary-fixed px-3 py-1 rounded-full text-[10px] font-bold">FEATURED</span>
+<span class="font-label-mono text-on-surface-variant text-[10px]">2h ago</span>
+</div>
+<h3 class="font-headline-md text-headline-lg mb-4 group-hover:text-primary transition-colors text-on-surface">The Architecture of Silence</h3>
+<p class="font-body-md text-on-surface-variant mb-6">Exploring the minimalist aesthetics of modern urban environments and their influence on upcoming seasonal collections.</p>
+</div>
+<div class="flex items-center gap-6 text-on-surface-variant">
+<button class="flex items-center gap-2 hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="favorite">favorite</span>
+<span class="font-label-mono">1.2k</span>
+</button>
+<button class="flex items-center gap-2 hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="comment">comment</span>
+<span class="font-label-mono">84</span>
+</button>
+<button class="flex items-center gap-2 hover:text-primary transition-colors ml-auto">
+<span class="material-symbols-outlined" data-icon="share">share</span>
+</button>
+</div>
+</div>
+</div>
+</article>
+<!-- Post Card 2 -->
+<article class="bg-surface-container-lowest border border-outline-variant rounded-xl p-container-padding pulse-hover transition-all group shadow-sm">
+<div class="flex justify-between mb-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-surface-container overflow-hidden">
+<img alt="Small Avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCg3qU5OS0YqP_HFKY72AmofqInlSzcuEK11DTVn-WC9-JyG6N_LlOuz15Y_mq8mB4G75u4rMJBe-3UhfjOGL4X0aBFmFD7gilLr2A149oKwT2VjejLOrx6F2r1ghm6a4KdcZr_g8ojxbH7HKGIBog8mNB5wMXpcyAKlDUGRvRtLmVTegJ1WHD6jcNwK2RsCDRy18Y5DxcVVkYt0H4M9eHHbCK_q9ATeCSqoY6iQtYmPW2gRgz7XU-kMLQ-ZspkfK6IF6zxip6v_tMT"/>
+</div>
+<span class="font-bold text-on-surface">Editorial Pulse</span>
+</div>
+<span class="font-label-mono text-on-surface-variant text-[10px]">Yesterday</span>
+</div>
+<p class="font-body-md text-on-surface mb-4 italic font-medium leading-relaxed">"Style is a way to say who you are without having to speak."</p>
+<div class="flex items-center gap-4 text-on-surface-variant pt-4 border-t border-outline-variant">
+<span class="material-symbols-outlined text-sm" data-icon="favorite">favorite</span>
+<span class="font-label-mono">428</span>
+<span class="material-symbols-outlined text-sm" data-icon="chat_bubble">chat_bubble</span>
+<span class="font-label-mono">12</span>
+</div>
+</article>
+<!-- Post Card 3 -->
+<article class="bg-surface-container-lowest border border-outline-variant rounded-xl p-container-padding pulse-hover transition-all shadow-sm">
+<div class="flex justify-between mb-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-surface-container overflow-hidden">
+<img alt="Small Avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC4RqJZMweeLrHaocgxe1HEJiPVkUFMouy3nIyWXU3IMvwhxR4b559JhyJUm42vpvMi9H50fntLVqf-GAKgYA6kkDB8B1Y9cH4SVonFlXJZnTn8P6g69M109_1y2bFP6q31SWoBji9gGKv-hfTrs4pDTuW9KLuKfqU2KS8cuf_-pK1O6OC56kX7IBWxD__-v2q5oFo4CpBTQKeOyXsOiaTHh40eXyAKnhJ9VT7K-n-kqk14lq4oRTq0oLczQujqC7eQV8XJiOfvYGrq"/>
+</div>
+<span class="font-bold text-on-surface">Editorial Pulse</span>
+</div>
+<span class="font-label-mono text-on-surface-variant text-[10px]">3d ago</span>
+</div>
+<div class="rounded-lg overflow-hidden h-48 mb-4 border border-outline-variant bg-surface-dim">
+<img alt="Fashion Store" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD0_GoY-bzT4Piio69ozaxoph-i4pB-o8Yua9X_gUYYw4ETy2nM9jQHMKArWkw6QoOpOhaKo8SeJeBegFgIkCAXigJcq6r4rv6HSuQiXl1mYBMJt7-KiFWO-TXG2dPiUHub5dSRGW5FKdg5TyHYOe43mIZZ5tWp8u7t9mQWcpgQ14jmHVo2FjNTz7B_4ELByYy_pNp0IY1fbD-0nf-fuwE3304cK_lcyrHVr3YVk6XnXd7uJS5gxDUVADKBwDgI959O71wh1VPSokxj"/>
+</div>
+<h4 class="font-headline-sm text-headline-sm mb-2 text-on-surface">New Season Arrivals</h4>
+<p class="font-body-sm text-on-surface-variant">The boutique is ready for the Spring/Summer collection. Visit us for an exclusive preview.</p>
+</article>
+</div>
+</main>
+<!-- Right Sidebar (Trends & Recommendations) -->
+<aside class="hidden xl:flex flex-col py-margin-page px-6 gap-large w-80 sticky top-0 h-screen overflow-y-auto bg-surface">
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant" data-icon="search">search</span>
+<input class="w-full bg-surface-container-lowest border border-outline-variant rounded-full py-2 pl-10 pr-4 text-on-surface focus:outline-none focus:border-primary transition-colors font-body-sm shadow-sm" placeholder="Search Pulse" type="text"/>
+</div>
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-container-padding shadow-sm">
+<h3 class="font-headline-sm text-headline-sm mb-6 text-on-surface">Trending Topics</h3>
+<div class="flex flex-col gap-6">
+<div class="cursor-pointer hover:opacity-80 transition-opacity">
+<p class="font-label-mono text-on-surface-variant text-[10px] uppercase">Fashion • Trending</p>
+<p class="font-bold text-on-surface">#BrutalistChic</p>
+<p class="font-label-mono text-on-surface-variant text-[10px]">12.4k Posts</p>
+</div>
+<div class="cursor-pointer hover:opacity-80 transition-opacity">
+<p class="font-label-mono text-on-surface-variant text-[10px] uppercase">Art • Trending</p>
+<p class="font-bold text-on-surface">#DigitalRealism</p>
+<p class="font-label-mono text-on-surface-variant text-[10px]">8.2k Posts</p>
+</div>
+<div class="cursor-pointer hover:opacity-80 transition-opacity">
+<p class="font-label-mono text-on-surface-variant text-[10px] uppercase">Design • Trending</p>
+<p class="font-bold text-on-surface">#EditorialFlow</p>
+<p class="font-label-mono text-on-surface-variant text-[10px]">5.1k Posts</p>
+</div>
+</div>
+<button class="text-primary font-label-mono mt-6 text-sm hover:underline font-bold">Show more</button>
+</div>
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-container-padding shadow-sm">
+<h3 class="font-headline-sm text-headline-sm mb-6 text-on-surface">Suggested for You</h3>
+<div class="flex flex-col gap-4">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-surface-container overflow-hidden">
+<img alt="Suggested User" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBWtyLB4Odn8P4wSI7oiyEXaEEKj6IzCFAJhNycm6usSE_OYSeLKse2l37cnPpaigagCQ9058hyIdU4rmrFFQOJcCAixI4FVZu5YircntppKPlBZzAtFA1UakVORwGV3-AmJVlx6_xSKQSfI7tJO_R4bCUMgutIqjaFABaTOXyO5Kz_34aig__0WWWIv9sOP1gQFXxpPa-zqfNJ1DCldRLEptI4ogBmuAqggIN2S1fc9YQ07Dy3iAkY0HNQmgVfpC8JWIMADnQQsYmN"/>
+</div>
+<div>
+<p class="font-bold text-sm text-on-surface">Marcus Vane</p>
+<p class="font-label-mono text-[10px] text-on-surface-variant">@mv_snaps</p>
+</div>
+</div>
+<button class="text-primary font-bold text-xs px-4 py-1 border border-primary rounded-full hover:bg-primary/5 transition-colors">Follow</button>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-surface-container overflow-hidden">
+<img alt="Suggested User" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAIpCgUslcGGAYebybxDJd7xpQ1mVQy_3aWV-A74S3MVKbUmqEUk3oz3APSGyAaLiO5-tBoJMGsMJj4gPx9DeaYm1L1EIkzgcbNg4ZMI5diV4yahmV6cHtkQCSN8malQgcBpJg3o5_sRYCJEijjRNbMfgfpzYDsYtgNwAd-szYbj7IP-bqfZpRMT_wVdl5CdfPgy11ztNw_w3ErvDpLpHDKYvZi6WXE8zlt1mSUgRJvvHmOc_YfVCJSAreyGt3t1gIh45Icg1gcGZQL"/>
+</div>
+<div>
+<p class="font-bold text-sm text-on-surface">Sienna Grey</p>
+<p class="font-label-mono text-[10px] text-on-surface-variant">@grey_aesthetic</p>
+</div>
+</div>
+<button class="text-primary font-bold text-xs px-4 py-1 border border-primary rounded-full hover:bg-primary/5 transition-colors">Follow</button>
+</div>
+</div>
+</div>
+</aside>
+</div>
+<!-- Mobile Bottom Navigation -->
+<nav class="lg:hidden fixed bottom-0 w-full h-16 bg-surface/90 glass-nav border-t border-outline-variant flex justify-around items-center z-50 shadow-lg pb-safe">
+<button class="flex flex-col items-center justify-center text-on-surface-variant transition-all active:scale-90 duration-200">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+<span class="font-label-mono text-[10px]">Home</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant transition-all active:scale-90 duration-200">
+<span class="material-symbols-outlined" data-icon="search">search</span>
+<span class="font-label-mono text-[10px]">Explore</span>
+</button>
+<button class="flex flex-col items-center justify-center text-primary transition-all active:scale-90 duration-200">
+<span class="material-symbols-outlined text-4xl" data-icon="add_circle" style="font-variation-settings: 'FILL' 1;">add_circle</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant transition-all active:scale-90 duration-200">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+<span class="font-label-mono text-[10px]">Alerts</span>
+</button>
+<button class="flex flex-col items-center justify-center text-primary transition-all active:scale-90 duration-200">
+<span class="material-symbols-outlined" data-icon="person" style="font-variation-settings: 'FILL' 1;">person</span>
+<span class="font-label-mono text-[10px]">Profile</span>
+</button>
+</nav>
+<script>
+    // Tab switching micro-interaction
+    const tabs = document.querySelectorAll('nav[class*="sticky"] button');
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        tabs.forEach(t => {
+          t.classList.remove('text-primary', 'border-primary', 'border-b-2', 'font-bold');
+          t.classList.add('text-on-surface-variant');
+        });
+        tab.classList.add('text-primary', 'border-primary', 'border-b-2', 'font-bold');
+        tab.classList.remove('text-on-surface-variant');
+      });
+    });
+
+    // Follow button toggle
+    document.querySelectorAll('button').forEach(btn => {
+      if (btn.innerText.includes('Follow')) {
+        btn.addEventListener('click', () => {
+          if (btn.innerText === 'Follow') {
+            btn.innerText = 'Following';
+            btn.classList.remove('bg-primary-container', 'text-on-primary');
+            btn.classList.add('border', 'border-outline', 'text-on-surface');
+          } else {
+            btn.innerText = 'Follow';
+            btn.classList.add('bg-primary-container', 'text-on-primary');
+            btn.classList.remove('border', 'border-outline', 'text-on-surface');
+          }
+        });
+      }
+    });
+
+    // Simple scroll parallax for cover photo
+    window.addEventListener('scroll', () => {
+      const scrolled = window.pageYOffset;
+      const cover = document.querySelector('.relative > .h-64, .relative > .h-80');
+      if (cover) {
+        cover.style.transform = `translateY(${scrolled * 0.2}px)`;
+      }
+    });
+  </script>
+</body></html>
