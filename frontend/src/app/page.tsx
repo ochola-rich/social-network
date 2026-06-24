@@ -1,16 +1,17 @@
-// Protected Home Feed page.
-// Redirects to login if not authenticated. Fetches and displays the feed.
-
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { MainLayout } from "@/components/layout/MainLayout";
 import { useAuthStore } from "@/store/authStore";
+import { FeedPosts } from "@/components/feed/FeedPosts";
+import { CreatePostModal } from "@/components/feed/CreatePostModal";
+import { PenSquare } from "lucide-react";
 
 export default function HomePage() {
   const router = useRouter();
   const { user, isLoading, fetchCurrentUser } = useAuthStore();
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     fetchCurrentUser();
@@ -34,13 +35,23 @@ export default function HomePage() {
 
   return (
     <MainLayout>
-      <div className="p-6">
-        <h1 className="text-2xl font-bold text-on-surface mb-6">Your Feed</h1>
-        {/* Feed content will be implemented in Branch 2 */}
-        <div className="p-8 border border-outline-variant rounded-xl bg-surface-container-lowest text-center text-on-surface-variant">
-          Feed implementation begins in Branch 2.
+      <div className="pb-20">
+        {/* Create Post Prompt */}
+        <div className="p-6 border-b border-surface-container-high bg-surface-container-lowest">
+          <button 
+            onClick={() => setIsModalOpen(true)}
+            className="w-full flex items-center gap-4 p-4 rounded-xl border border-outline-variant bg-surface-container-low hover:border-primary/50 transition-colors group"
+          >
+            <PenSquare size={20} className="text-on-surface-variant group-hover:text-primary transition-colors" />
+            <span className="text-on-surface-variant text-left">What's on your mind?</span>
+          </button>
         </div>
+
+        {/* Feed */}
+        <FeedPosts />
       </div>
+
+      <CreatePostModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
     </MainLayout>
   );
 }
