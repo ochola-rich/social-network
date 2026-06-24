@@ -62,3 +62,34 @@ class WebSocketClient {
       console.error("WebSocket error:", err);
     };
   }
+
+  disconnect() {
+      this.isManualClose = true;
+      this.ws?.close();
+    }
+  
+    send(type: string, data: Partial<WSMessage>) {
+      if (this.ws?.readyState === WebSocket.OPEN) {
+        this.ws.send(JSON.stringify({ type, ...data }));
+      }
+    }
+  
+    on(event: string, callback: EventCallback) {
+      if (!this.listeners.has(event)) {
+        this.listeners.set(event, new Set());
+      }
+      this.listeners.get(event)!.add(callback);
+    }
+  
+    off(event: string, callback: EventCallback) {
+      this.listeners.get(event)?.delete(callback);
+    }
+  
+    private emit(event: string, data: WSMessage) {
+      this.listeners.get(event)?.forEach((cb) => cb(data));
+    }
+  }
+  
+  // Export singleton instance
+  const WS_URL = process.env.NEXT_PUBLIC_WS_URL || "ws://localhost:8080/ws";
+  export const wsClient = new WebSocketClient(WS_URL);
