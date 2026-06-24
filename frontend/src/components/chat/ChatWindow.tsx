@@ -78,3 +78,61 @@ export const ChatWindow: React.FC<ChatWindowProps> = ({ userId }) => {
       </section>
     );
   }
+
+  if (isLoading) {
+    return (
+      <section className="hidden lg:flex flex-1 flex-col bg-surface-container-lowest items-center justify-center">
+        <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent" />
+      </section>
+    );
+  }
+
+  return (
+    <section className="hidden lg:flex flex-1 flex-col bg-surface-container-lowest h-screen overflow-hidden">
+      {/* Header */}
+      <div className="h-20 px-8 flex items-center justify-between border-b border-outline-variant glass-effect sticky top-0 z-10 bg-surface-container-lowest/80">
+        <div className="flex items-center gap-4">
+          <Avatar src={chatUser?.avatar} alt={chatUser?.first_name || "User"} size="md" className="!rounded-lg" />
+          <div>
+            <h3 className="font-headline-sm text-headline-sm text-on-surface">
+              {chatUser?.first_name} {chatUser?.last_name}
+            </h3>
+            <span className="font-label-mono text-primary text-[10px] font-bold uppercase tracking-widest">Online Now</span>
+          </div>
+        </div>
+      </div>
+
+      {/* Messages Area */}
+      <div className="flex-1 overflow-y-auto p-8 flex flex-col gap-6 custom-scrollbar">
+        <div className="flex justify-center">
+          <span className="font-label-mono bg-surface-container py-1 px-4 rounded-full text-on-surface-variant text-[10px]">
+            RECENT CONVERSATION
+          </span>
+        </div>
+        
+        {messages.map((msg) => (
+          <MessageBubble 
+            key={msg.id} 
+            message={msg} 
+            isOwn={msg.sender_id === currentUser?.id} 
+          />
+        ))}
+        <div ref={messagesEndRef} />
+      </div>
+
+      {/* Input Bar */}
+      <ChatInput 
+        receiverId={userId} 
+        onMessageSent={(content) => {
+          setMessages((prev) => [...prev, {
+            id: Date.now(),
+            sender_id: currentUser!.id,
+            content,
+            created_at: new Date().toISOString(),
+          }]);
+          wsClient.send("private_message", { receiver_id: userId, body: content });
+        }} 
+      />
+    </section>
+  );
+};
