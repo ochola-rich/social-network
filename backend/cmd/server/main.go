@@ -14,10 +14,20 @@ import (
 )
 
 func main() {
-	// Configuration
-	dbPath := "./data/social_network.db"
-	uploadDir := "./uploads"
-	port := ":8080"
+	dbPath := os.Getenv("DB_PATH")
+	if dbPath == "" {
+		dbPath = "./data/social_network.db"
+	}
+	uploadDir := os.Getenv("UPLOAD_DIR")
+	if uploadDir == "" {
+		uploadDir = "./uploads"
+	}
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = ":8080"
+	} else if !strings.HasPrefix(port, ":") {
+		port = ":" + port
+	}
 
 	// Initialize Database
 	db, err := sqlite.New(dbPath)
