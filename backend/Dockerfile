@@ -14,7 +14,7 @@ RUN go mod download
 COPY . .
 
 # Build the statically linked Go binary with CGO enabled (for sqlite3)
-RUN CGO_ENABLED=1 GOOS=linux go build -ldflags="-w -s" -o server server.go
+RUN CGO_ENABLED=1 GOOS=linux go build -ldflags="-w -s" -o server cmd/server/main.go
 
 # Stage 2: Run the binary in a minimal container
 FROM alpine:latest
