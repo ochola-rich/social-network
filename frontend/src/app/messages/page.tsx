@@ -1,5 +1,7 @@
-// The main Messages page. Orchestrates the ConversationList and ChatWindow.
-// Initializes the WebSocket connection on mount.
+// src/app/messages/page.tsx
+// Main Messages page — orchestrates ConversationList and ChatWindow.
+// Initializes WebSocket connection on mount.
+// Zero hardcoded data. All content fetched from backend.
 
 "use client";
 
@@ -19,10 +21,10 @@ export default function MessagesPage() {
 
   useEffect(() => {
     fetchCurrentUser();
-    wsClient.connect(); // Initialize WebSocket
+    wsClient.connect();
 
     return () => {
-      wsClient.disconnect(); // Cleanup on unmount
+      wsClient.disconnect();
     };
   }, [fetchCurrentUser]);
 
@@ -36,9 +38,9 @@ export default function MessagesPage() {
     <div className="min-h-screen bg-background flex">
       <LeftSidebar />
       <div className="flex-1 flex flex-col lg:flex-row h-screen overflow-hidden">
-        <ConversationList 
-          activeUserId={activeUserId} 
-          onSelectUser={setActiveUserId} 
+        <ConversationList
+          activeUserId={activeUserId}
+          onSelectUser={setActiveUserId}
         />
         <ChatWindow userId={activeUserId} />
       </div>
