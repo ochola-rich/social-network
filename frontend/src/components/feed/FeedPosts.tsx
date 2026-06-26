@@ -1,99 +1,76 @@
+// src/components/feed/FeedPosts.tsx
+// Main feed component. Fetches posts and renders them using PostCard.
+// Zero hardcoded data. All content fetched from backend.
+
 "use client";
 
 import React, { useEffect, useState } from "react";
 import { apiClient } from "@/lib/api";
 import { PostCard } from "./PostCard";
 import { StoryStrip } from "./StoryStrip";
+import { MessageSquare } from "lucide-react";
 
 interface Post {
   id: number;
-  user_id: number;
-  title: string;
-  content: string;
-  image: string;
-  privacy: string;
-  created_at: string;
   user: {
     id: number;
     first_name: string;
     last_name: string;
-    avatar: string;
     nickname: string;
+    avatar: string;
   };
+  title: string;
+  content: string;
+  image: string;
+  created_at: string;
   comment_count: number;
+  like_count: number;
 }
 
 export const FeedPosts: React.FC = () => {
   const [posts, setPosts] = useState<Post[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchFeed = async () => {
       try {
-        setIsLoading(true);
-        setError(null);
-        const response = await apiClient.get("/api/posts/feed");
-        setPosts(response.data.posts || []);
+        const { data } = await apiClient.get("/api/posts/feed");
+        setPosts(data.posts || []);
       } catch (err) {
         console.error("Failed to fetch feed:", err);
-        setError("Failed to load posts. Please try again later.");
       } finally {
         setIsLoading(false);
       }
     };
-
     fetchFeed();
   }, []);
 
   if (isLoading) {
     return (
-      <div className="space-y-6">
-        <StoryStrip />
+      <div className="space-y-4">
         {[1, 2, 3].map((i) => (
           <div
             key={i}
-            className="p-6 border-b border-surface-container-high animate-pulse"
-          >
-            <div className="flex gap-3 mb-4">
-              <div className="w-10 h-10 rounded-full bg-surface-container-high" />
-              <div className="flex-1 space-y-2">
-                <div className="h-4 bg-surface-container-high rounded w-1/3" />
-                <div className="h-3 bg-surface-container-high rounded w-1/4" />
-              </div>
-            </div>
-            <div className="h-64 bg-surface-container-high rounded-xl" />
-          </div>
+            className="h-64 bg-surface-container-high rounded-2xl animate-pulse"
+          />
         ))}
       </div>
     );
   }
 
-  if (error) {
-    return (
-      <div className="p-12 text-center">
-        <p className="text-on-surface-variant font-body-md">{error}</p>
-        <button
-          onClick={() => window.location.reload()}
-          className="mt-4 text-primary font-bold hover:underline"
-        >
-          Refresh Page
-        </button>
-      </div>
-    );
-  }
-
   return (
-    <div className="space-y-0">
+    <section className="space-y-6">
       <StoryStrip />
-
       {posts.length === 0 ? (
-        <div className="p-12 text-center border-b border-surface-container-high">
-          <p className="text-on-surface-variant font-body-lg mb-2">
+        <div className="flex flex-col items-center justify-center py-20 px-6 bg-surface-container-lowest border border-outline-variant rounded-2xl">
+          <div className="w-16 h-16 bg-primary/5 rounded-2xl flex items-center justify-center mb-5">
+            <MessageSquare className="text-primary/40" size={28} />
+          </div>
+          <h3 className="text-lg font-bold text-on-surface mb-2">
             No posts yet
-          </p>
-          <p className="text-on-surface-variant font-body-sm">
-            Posts from people you follow will appear here.
+          </h3>
+          <p className="text-on-surface-variant text-sm text-center max-w-sm leading-relaxed">
+            Follow some users to see their content here!
           </p>
         </div>
       ) : (
@@ -101,6 +78,7 @@ export const FeedPosts: React.FC = () => {
           <PostCard
             key={post.id}
             id={post.id}
+            authorId={post.user.id}
             author={{
               name: `${post.user.first_name} ${post.user.last_name}`,
               handle:
@@ -112,11 +90,11 @@ export const FeedPosts: React.FC = () => {
             title={post.title}
             content={post.content}
             image={post.image || undefined}
-            likes={0}
-            comments={post.comment_count}
+            likes={post.like_count || 0}
+            comments={post.comment_count || 0}
           />
         ))
       )}
-    </div>
+    </section>
   );
 };
