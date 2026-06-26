@@ -127,9 +127,11 @@ func (h *FollowHandler) AcceptFollowRequest(w http.ResponseWriter, r *http.Reque
 
 	rowsAffected, _ := result.RowsAffected()
 	if rowsAffected == 0 {
-		http.Error(w, `{"error":"no pending follow request found"}`, http.StatusNotFound)
-		return
-	}
+    // Return 200 OK instead of 404 to make the operation idempotent.
+    // If it's already accepted, we just treat it as a success.
+    json.NewEncoder(w).Encode(map[string]interface{}{"message": "follow request already accepted"})
+    return
+}
 
 	json.NewEncoder(w).Encode(map[string]interface{}{"message": "follow request accepted"})
 }
