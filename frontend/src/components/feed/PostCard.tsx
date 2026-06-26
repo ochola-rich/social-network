@@ -1,9 +1,11 @@
 // src/components/feed/PostCard.tsx
-// Core post display component. Includes functional comments fetching, submission, and native sharing.
+// Core post display component. Includes functional comments fetching, submission,
+// image uploads for comments, and native sharing.
 
 "use client";
 
 import React, { useState } from "react";
+import { useRouter } from "next/navigation";
 import {
   Heart,
   MessageCircle,
@@ -13,6 +15,8 @@ import {
   Send,
   ChevronDown,
   ChevronUp,
+  Image as ImageIcon,
+  X,
 } from "lucide-react";
 import { Avatar } from "@/components/ui/Avatar";
 import { cn } from "@/lib/utils";
@@ -33,12 +37,14 @@ interface CommentUser {
 interface Comment {
   id: number;
   content: string;
+  image?: string;
   created_at: string;
   user: CommentUser;
 }
 
 interface PostCardProps {
   id: number;
+  authorId?: number;
   author: {
     name: string;
     handle?: string;
@@ -56,6 +62,7 @@ interface PostCardProps {
 
 export const PostCard: React.FC<PostCardProps> = ({
   id,
+  authorId,
   author,
   timestamp,
   type = "text",
@@ -66,6 +73,7 @@ export const PostCard: React.FC<PostCardProps> = ({
   likes,
   comments: initialCommentCount,
 }) => {
+  const router = useRouter();
   const [isLiked, setIsLiked] = useState(false);
   const [isBookmarked, setIsBookmarked] = useState(false);
   const [likeCount, setLikeCount] = useState(likes);
@@ -76,6 +84,10 @@ export const PostCard: React.FC<PostCardProps> = ({
   const [isSubmittingComment, setIsSubmittingComment] = useState(false);
   const [commentCount, setCommentCount] = useState(initialCommentCount);
   const [isLoadingComments, setIsLoadingComments] = useState(false);
+
+  const [commentImage, setCommentImage] = useState<File | null>(null);
+  const [commentImagePreview, setCommentImagePreview] = useState<string>("");
+  const [isUploadingCommentImage, setIsUploadingCommentImage] = useState(false);
 
   const [shareMessage, setShareMessage] = useState("");
 
@@ -113,14 +125,38 @@ export const PostCard: React.FC<PostCardProps> = ({
     setShowComments(!showComments);
   };
 
+  const handleCommentImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      const file = e.target.files[0];
+      setCommentImage(file);
+      setCommentImagePreview(URL.createObjectURL(file));
+    }
+  };
+
   const handleAddComment = async () => {
-    if (!newComment.trim()) return;
+    if (!newComment.trim() && !commentImage) return;
     setIsSubmittingComment(true);
     try {
+      let imagePath = "";
+      if (commentImage) {
+        setIsUploadingCommentImage(true);
+        const formData = new FormData();
+        formData.append("file", commentImage);
+        const uploadRes = await apiClient.post("/api/upload", formData, {
+          headers: { "Content-Type": "multipart/form-data" },
+        });
+        imagePath = uploadRes.data.path;
+        setIsUploadingCommentImage(false);
+      }
+
       await apiClient.post(`/api/posts/${id}/comment`, {
         content: newComment.trim(),
+        image: imagePath,
       });
+
       setNewComment("");
+      setCommentImage(null);
+      setCommentImagePreview("");
 
       const { data } = await apiClient.get(`/api/posts/${id}`);
       setCommentsList(data.comments || []);
@@ -161,7 +197,10 @@ export const PostCard: React.FC<PostCardProps> = ({
     >
       {/* Header */}
       <div className="flex items-center justify-between">
-        <div className="flex items-center gap-3">
+        <div
+          className="flex items-center gap-3 cursor-pointer hover:opacity-80 transition-opacity"
+          onClick={() => authorId && router.push(`/profile?userId=${authorId}`)}
+        >
           <Avatar
             src={resolveImageUrl(author.avatar || "")}
             alt={author.name}
@@ -177,7 +216,7 @@ export const PostCard: React.FC<PostCardProps> = ({
             </p>
           </div>
         </div>
-        <button className="text-on-surface-variant hover:text-primary transition-colors p-1 rounded-lg hover:bg-surface-container-high">
+        <button className="p-1 text-on-surface-variant hover:text-primary hover:bg-surface-container-high rounded-xl transition-colors">
           <MoreHorizontal size={20} />
         </button>
       </div>
@@ -337,7 +376,7 @@ export const PostCard: React.FC<PostCardProps> = ({
                     src={resolveImageUrl(comment.user.avatar)}
                     alt={comment.user.first_name}
                     size="sm"
-                    className="w-8 h-8 flex-shrink-0 rounded-lg"
+                    className="w-8 h-8 rounded-lg flex-shrink-0"
                   />
                   <div className="flex-1 bg-surface-container-low p-3 rounded-lg rounded-tl-none">
                     <p className="font-bold text-xs text-on-surface mb-1">
@@ -349,34 +388,73 @@ export const PostCard: React.FC<PostCardProps> = ({
                     <p className="text-sm text-on-surface-variant">
                       {comment.content}
                     </p>
+                    {comment.image && (
+                      <div className="mt-2 rounded-lg overflow-hidden border border-outline-variant w-32 h-32">
+                        <img
+                          src={resolveImageUrl(comment.image)}
+                          alt="Comment attachment"
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+                    )}
                   </div>
                 </div>
               ))}
             </div>
           )}
 
-          {/* Add Comment Input */}
-          <div className="flex gap-2 items-center pt-2">
-            <input
-              type="text"
-              value={newComment}
-              onChange={(e) => setNewComment(e.target.value)}
-              onKeyDown={(e) => e.key === "Enter" && handleAddComment()}
-              placeholder="Write a comment..."
-              className="flex-1 bg-surface-container-low border border-outline-variant rounded-full px-4 py-2 text-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary/20 transition-colors"
-              disabled={isSubmittingComment}
-            />
-            <button
-              onClick={handleAddComment}
-              disabled={!newComment.trim() || isSubmittingComment}
-              className="p-2 text-primary hover:bg-primary/10 rounded-full transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              {isSubmittingComment ? (
-                <div className="h-4 w-4 animate-spin rounded-full border-2 border-primary border-t-transparent" />
-              ) : (
-                <Send size={16} />
-              )}
-            </button>
+          <div className="mt-4 flex flex-col gap-2">
+            {commentImagePreview && (
+              <div className="relative w-20 h-20 rounded-lg overflow-hidden border border-outline-variant">
+                <img
+                  src={commentImagePreview}
+                  alt="Preview"
+                  className="w-full h-full object-cover"
+                />
+                <button
+                  onClick={() => {
+                    setCommentImage(null);
+                    setCommentImagePreview("");
+                  }}
+                  className="absolute top-1 right-1 bg-on-surface/80 text-surface p-0.5 rounded-full"
+                >
+                  <X size={12} />
+                </button>
+              </div>
+            )}
+            <div className="flex gap-2 items-center">
+              <label className="p-2 text-on-surface-variant hover:text-primary transition-colors cursor-pointer">
+                <ImageIcon size={18} />
+                <input
+                  type="file"
+                  accept="image/jpeg,image/png,image/gif"
+                  onChange={handleCommentImageChange}
+                  className="hidden"
+                />
+              </label>
+              <input
+                type="text"
+                value={newComment}
+                onChange={(e) => setNewComment(e.target.value)}
+                onKeyDown={(e) => e.key === "Enter" && handleAddComment()}
+                placeholder="Write a comment..."
+                className="flex-1 bg-surface-container-low border border-outline-variant rounded-full px-4 py-2 text-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary/20 transition-colors"
+                disabled={isSubmittingComment}
+              />
+              <button
+                onClick={handleAddComment}
+                disabled={
+                  (!newComment.trim() && !commentImage) || isSubmittingComment
+                }
+                className="p-2 text-primary hover:bg-primary/10 rounded-full transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {isSubmittingComment || isUploadingCommentImage ? (
+                  <div className="h-4 w-4 animate-spin rounded-full border-2 border-primary border-t-transparent" />
+                ) : (
+                  <Send size={16} />
+                )}
+              </button>
+            </div>
           </div>
         </div>
       )}

@@ -67,9 +67,37 @@ func (h *MessagesHandler) SendMessage(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if req.ReceiverID == 0 && req.GroupID == 0 {
+		if req.ReceiverID == 0 && req.GroupID == 0 {
 		http.Error(w, `{"error":"receiver_id or group_id is required"}`, http.StatusBadRequest)
 		return
+	}
+
+	// Prevent sending messages to yourself
+	if req.ReceiverID == currentUserID {
+		http.Error(w, `{"error":"cannot send message to yourself"}`, http.StatusBadRequest)
+		return
+	}
+
+	// AUDIT FIX: Restrict private messaging to users who follow each other
+	if req.GroupID == 0 && req.ReceiverID != 0 {
+		var followCount int
+		err := h.db.QueryRow(
+			`SELECT COUNT(*) FROM followers 
+			 WHERE ((follower_id = ? AND followee_id = ?) OR (follower_id = ? AND followee_id = ?)) 
+			 AND status = 'accepted'`,
+			currentUserID, req.ReceiverID, req.ReceiverID, currentUserID,
+		).Scan(&followCount)
+		
+		if err != nil {
+			http.Error(w, `{"error":"database error checking follow status"}`, http.StatusInternalServerError)
+			return
+		}
+
+		// If followCount is 0, it means neither user follows the other
+		if followCount == 0 {
+			http.Error(w, `{"error":"you can only message users you follow or who follow you"}`, http.StatusForbidden)
+			return
+		}
 	}
 
 	// Insert message into database

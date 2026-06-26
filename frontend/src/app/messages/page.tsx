@@ -1,12 +1,11 @@
 // src/app/messages/page.tsx
-// Main Messages page — orchestrates ConversationList and ChatWindow.
-// Initializes WebSocket connection on mount.
-// Zero hardcoded data. All content fetched from backend.
+// The main Messages page. Orchestrates the ConversationList and ChatWindow.
+// Initializes the WebSocket connection on mount and handles deep-linking to specific users.
 
 "use client";
 
-import React, { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import React, { useEffect, useState, Suspense } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useAuthStore } from "@/store/authStore";
 import { ConversationList } from "@/components/chat/ConversationList";
 import { ChatWindow } from "@/components/chat/ChatWindow";
@@ -14,23 +13,30 @@ import { wsClient } from "@/lib/websocket";
 import { LeftSidebar } from "@/components/layout/LeftSidebar";
 import { MobileNav } from "@/components/layout/MobileNav";
 
-export default function MessagesPage() {
+function MessagesContent() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const urlUserId = searchParams.get("userId");
+
   const { user, isLoading, fetchCurrentUser } = useAuthStore();
-  const [activeUserId, setActiveUserId] = useState<number | null>(null);
+
+  // Initialize activeUserId from URL if present
+  const [activeUserId, setActiveUserId] = useState<number | null>(
+    urlUserId ? Number(urlUserId) : null,
+  );
 
   useEffect(() => {
     fetchCurrentUser();
-    wsClient.connect();
-
-    return () => {
-      wsClient.disconnect();
-    };
   }, [fetchCurrentUser]);
 
   useEffect(() => {
     if (!isLoading && !user) router.push("/login");
   }, [user, isLoading, router]);
+
+  // FIX: Empty dependency array prevents the WebSocket from disconnecting/reconnecting on every render
+  useEffect(() => {
+    wsClient.connect();
+  }, []);
 
   if (isLoading || !user) return null;
 
@@ -46,5 +52,20 @@ export default function MessagesPage() {
       </div>
       <MobileNav />
     </div>
+  );
+}
+
+export default function MessagesPage() {
+  return (
+    // Next.js requires a Suspense boundary for useSearchParams
+    <Suspense
+      fallback={
+        <div className="min-h-screen flex items-center justify-center bg-background">
+          Loading Messages...
+        </div>
+      }
+    >
+      <MessagesContent />
+    </Suspense>
   );
 }
