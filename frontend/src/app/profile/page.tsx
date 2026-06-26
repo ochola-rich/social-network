@@ -1,10 +1,11 @@
 // src/app/profile/page.tsx
-// User profile page — own profile view with privacy controls, functional tabs, and clickable follower lists.
+// User profile page — supports viewing own profile or other users via ?userId= query param.
+// Zero hardcoded data. All content fetched from backend.
 
 "use client";
 
-import React, { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import React, { useEffect, useState, Suspense } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { MainLayout } from "@/components/layout/MainLayout";
 import { useAuthStore } from "@/store/authStore";
 import { Avatar } from "@/components/ui/Avatar";
@@ -58,8 +59,11 @@ interface ProfileData {
 const TABS = ["POSTS", "MEDIA", "GROUPS", "LIKES"] as const;
 type Tab = (typeof TABS)[number];
 
-export default function ProfilePage() {
+function ProfileContent() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const urlUserId = searchParams.get("userId");
+
   const {
     user: currentUser,
     isLoading: authLoading,
@@ -85,12 +89,14 @@ export default function ProfilePage() {
     fetchCurrentUser();
   }, [fetchCurrentUser]);
 
+  // Fetch profile based on URL param or current user
   useEffect(() => {
     const fetchProfile = async () => {
       if (!currentUser) return;
       try {
         setIsLoading(true);
-        const response = await apiClient.get(`/api/profile/${currentUser.id}`);
+        const targetId = urlUserId ? Number(urlUserId) : currentUser.id;
+        const response = await apiClient.get(`/api/profile/${targetId}`);
         setProfileData(response.data);
       } catch (err) {
         console.error("Failed to fetch profile:", err);
@@ -99,7 +105,7 @@ export default function ProfilePage() {
       }
     };
     fetchProfile();
-  }, [currentUser]);
+  }, [currentUser, urlUserId]);
 
   useEffect(() => {
     const fetchUserGroups = async () => {
@@ -246,6 +252,17 @@ export default function ProfilePage() {
                   {user.is_public ? "Public" : "Private"}
                 </button>
               )}
+
+              {!isOwnProfile && (
+                <Button
+                  variant="outline"
+                  className="rounded-xl px-6 py-2.5 text-sm font-bold"
+                  onClick={() => router.push(`/messages?userId=${user.id}`)}
+                >
+                  Message
+                </Button>
+              )}
+
               <Button
                 className={`rounded-xl px-6 py-2.5 text-sm font-bold transition-all duration-200 ${isOwnProfile ? "bg-surface-container-lowest border border-outline-variant text-on-surface hover:bg-surface-container-low" : "bg-primary text-on-primary hover:bg-primary/90 shadow-sm hover:shadow-md"}`}
               >
@@ -553,6 +570,7 @@ export default function ProfilePage() {
         </div>
       </div>
 
+      {/* Modals */}
       <ConfirmationModal
         isOpen={showPrivacyModal}
         title={
@@ -580,5 +598,19 @@ export default function ProfilePage() {
         onClose={() => setShowFollowingModal(false)}
       />
     </MainLayout>
+  );
+}
+
+export default function ProfilePage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-screen flex items-center justify-center bg-background">
+          <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent" />
+        </div>
+      }
+    >
+      <ProfileContent />
+    </Suspense>
   );
 }
