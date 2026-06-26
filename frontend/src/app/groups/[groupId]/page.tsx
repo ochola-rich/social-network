@@ -1,3 +1,7 @@
+// src/app/groups/[groupId]/page.tsx
+// Group detail page — discussion, members, and events.
+// Includes expandable comments section with image upload support.
+
 "use client";
 
 import React, { useEffect, useState } from "react";
@@ -17,6 +21,8 @@ import {
   MessageSquare,
   ChevronUp,
   ChevronDown,
+  Image as ImageIcon,
+  X,
 } from "lucide-react";
 
 type Tab = "discussion" | "members" | "events";
@@ -31,15 +37,22 @@ export default function GroupDetailPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [activeTab, setActiveTab] = useState<Tab>("discussion");
   const [newPostContent, setNewPostContent] = useState("");
+
   const [commentContents, setCommentContents] = useState<
     Record<number, string>
   >({});
 
-  // Comments dropdown state
   const [expandedComments, setExpandedComments] = useState<
     Record<number, boolean>
   >({});
   const [postComments, setPostComments] = useState<Record<number, any[]>>({});
+  const [commentImages, setCommentImages] = useState<
+    Record<number, File | null>
+  >({});
+  const [commentImagePreviews, setCommentImagePreviews] = useState<
+    Record<number, string>
+  >({});
+  const [isUploadingCommentImage, setIsUploadingCommentImage] = useState(false);
 
   const [eventTitle, setEventTitle] = useState("");
   const [eventDesc, setEventDesc] = useState("");
@@ -49,7 +62,6 @@ export default function GroupDetailPage() {
   useEffect(() => {
     fetchCurrentUser();
   }, [fetchCurrentUser]);
-
   useEffect(() => {
     if (!authLoading && !user) router.push("/login");
   }, [user, authLoading, router]);
@@ -92,23 +104,62 @@ export default function GroupDetailPage() {
     }
   };
 
+  const handleCommentImageChange = (
+    postId: number,
+    e: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    if (e.target.files && e.target.files[0]) {
+      const file = e.target.files[0];
+      setCommentImages((prev) => ({ ...prev, [postId]: file }));
+      setCommentImagePreviews((prev) => ({
+        ...prev,
+        [postId]: URL.createObjectURL(file),
+      }));
+    }
+  };
+
+  const removeCommentImage = (postId: number) => {
+    setCommentImages((prev) => ({ ...prev, [postId]: null }));
+    setCommentImagePreviews((prev) => ({ ...prev, [postId]: "" }));
+  };
+
   const handleAddComment = async (postId: number) => {
     const content = commentContents[postId];
-    if (!content?.trim()) return;
-    try {
-      await apiClient.post(`/api/groups/posts/${postId}/comment`, { content });
-      setCommentContents((prev) => ({ ...prev, [postId]: "" }));
+    const imageFile = commentImages[postId];
 
-      // Refetch comments for this post to show the new one immediately
+    if (!content?.trim() && !imageFile) return;
+
+    setIsUploadingCommentImage(true);
+    try {
+      let imagePath = "";
+
+      if (imageFile) {
+        const formData = new FormData();
+        formData.append("file", imageFile);
+        const uploadRes = await apiClient.post("/api/upload", formData, {
+          headers: { "Content-Type": "multipart/form-data" },
+        });
+        imagePath = uploadRes.data.path;
+      }
+
+      await apiClient.post(`/api/groups/posts/${postId}/comment`, {
+        content: content?.trim() || "",
+        image: imagePath,
+      });
+
+      setCommentContents((prev) => ({ ...prev, [postId]: "" }));
+      removeCommentImage(postId);
+
       const { data } = await apiClient.get(
         `/api/groups/posts/${postId}/comments`,
       );
       setPostComments((prev) => ({ ...prev, [postId]: data.comments || [] }));
 
-      // Update overall comment count
       fetchGroup();
     } catch (err) {
       console.error("Add comment failed:", err);
+    } finally {
+      setIsUploadingCommentImage(false);
     }
   };
 
@@ -235,8 +286,7 @@ export default function GroupDetailPage() {
                   onClick={() => setActiveTab("members")}
                   className="rounded-xl gap-2"
                 >
-                  <UserPlus size={14} />
-                  Invite Members
+                  <UserPlus size={14} /> Invite Members
                 </Button>
               )}
             </div>
@@ -329,11 +379,11 @@ export default function GroupDetailPage() {
                         {post.content}
                       </p>
 
-                      {/* Comments Dropdown Toggle */}
-                      <div className="border-t border-outline-variant pt-4">
+                      {/* Comments Section */}
+                      <div className="border-t border-outline-variant pt-4 mt-4 space-y-3">
                         <button
                           onClick={() => toggleGroupComments(post.id)}
-                          className="flex items-center gap-2 text-on-surface-variant hover:text-primary transition-colors mb-3"
+                          className="flex items-center gap-2 text-on-surface-variant hover:text-primary transition-colors"
                         >
                           <MessageSquare size={16} strokeWidth={2} />
                           <span className="text-xs font-semibold">
@@ -380,40 +430,86 @@ export default function GroupDetailPage() {
                                         <p className="text-sm text-on-surface-variant">
                                           {comment.content}
                                         </p>
+
+                                        {comment.image && (
+                                          <div className="mt-2 rounded-lg overflow-hidden border border-outline-variant w-32 h-32">
+                                            <img
+                                              src={`${process.env.NEXT_PUBLIC_API_URL}${comment.image}`}
+                                              alt="Comment attachment"
+                                              className="w-full h-full object-cover"
+                                            />
+                                          </div>
+                                        )}
                                       </div>
                                     </div>
                                   ),
                                 )}
                               </div>
                             )}
+                          </div>
+                        )}
 
-                            {/* Add Comment Input */}
-                            {(isMember || isCreator) && (
-                              <div className="flex gap-2 items-center pt-2">
-                                <input
-                                  type="text"
-                                  value={commentContents[post.id] || ""}
-                                  onChange={(e) =>
-                                    setCommentContents((prev) => ({
-                                      ...prev,
-                                      [post.id]: e.target.value,
-                                    }))
-                                  }
-                                  onKeyDown={(e) =>
-                                    e.key === "Enter" &&
-                                    handleAddComment(post.id)
-                                  }
-                                  placeholder="Add a comment..."
-                                  className="flex-1 bg-surface-container-low border border-outline-variant rounded-full px-4 py-2 text-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary/20 transition-colors placeholder:text-on-surface-variant/50"
+                        {/* Add Comment Input with Image Upload */}
+                        {(isMember || isCreator) && (
+                          <div className="flex flex-col gap-2 mt-2">
+                            {commentImagePreviews[post.id] && (
+                              <div className="relative w-20 h-20 rounded-lg overflow-hidden border border-outline-variant">
+                                <img
+                                  src={commentImagePreviews[post.id]}
+                                  alt="Preview"
+                                  className="w-full h-full object-cover"
                                 />
                                 <button
-                                  onClick={() => handleAddComment(post.id)}
-                                  className="p-2 text-primary hover:bg-primary/10 rounded-full transition-colors"
+                                  onClick={() => removeCommentImage(post.id)}
+                                  className="absolute top-1 right-1 bg-on-surface/80 text-surface p-0.5 rounded-full"
                                 >
-                                  <Send size={16} />
+                                  <X size={12} />
                                 </button>
                               </div>
                             )}
+                            <div className="flex gap-2 items-center">
+                              <label className="p-2 text-on-surface-variant hover:text-primary transition-colors cursor-pointer">
+                                <ImageIcon size={18} />
+                                <input
+                                  type="file"
+                                  accept="image/jpeg,image/png,image/gif"
+                                  onChange={(e) =>
+                                    handleCommentImageChange(post.id, e)
+                                  }
+                                  className="hidden"
+                                />
+                              </label>
+                              <input
+                                type="text"
+                                value={commentContents[post.id] || ""}
+                                onChange={(e) =>
+                                  setCommentContents((prev) => ({
+                                    ...prev,
+                                    [post.id]: e.target.value,
+                                  }))
+                                }
+                                onKeyDown={(e) =>
+                                  e.key === "Enter" && handleAddComment(post.id)
+                                }
+                                className="flex-1 bg-surface-container-low border border-outline-variant rounded-full px-4 py-2 text-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary/20 transition-colors"
+                                placeholder="Add a comment..."
+                              />
+                              <button
+                                onClick={() => handleAddComment(post.id)}
+                                disabled={
+                                  (!commentContents[post.id]?.trim() &&
+                                    !commentImages[post.id]) ||
+                                  isUploadingCommentImage
+                                }
+                                className="p-2 text-primary hover:bg-primary/10 rounded-full transition-colors disabled:opacity-50"
+                              >
+                                {isUploadingCommentImage ? (
+                                  <div className="h-4 w-4 animate-spin rounded-full border-2 border-primary border-t-transparent" />
+                                ) : (
+                                  <Send size={16} />
+                                )}
+                              </button>
+                            </div>
                           </div>
                         )}
                       </div>
