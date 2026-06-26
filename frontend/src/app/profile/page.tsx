@@ -1,6 +1,5 @@
 // src/app/profile/page.tsx
-// User profile page — own profile view with privacy controls and functional tabs.
-// Zero hardcoded data. All content fetched from backend.
+// User profile page — own profile view with privacy controls, functional tabs, and clickable follower lists.
 
 "use client";
 
@@ -10,6 +9,7 @@ import { MainLayout } from "@/components/layout/MainLayout";
 import { useAuthStore } from "@/store/authStore";
 import { Avatar } from "@/components/ui/Avatar";
 import { Button } from "@/components/ui/Button";
+import { UsersListModal } from "@/components/ui/UsersListModal";
 import { apiClient } from "@/lib/api";
 import {
   Lock,
@@ -20,8 +20,6 @@ import {
   Bookmark,
   Image as ImageIcon,
   Users,
-  Hash,
-  ArrowRight,
 } from "lucide-react";
 import { ConfirmationModal } from "@/components/ui/ConfirmationModal";
 
@@ -75,9 +73,13 @@ export default function ProfilePage() {
   const [showPrivacyModal, setShowPrivacyModal] = useState(false);
   const [pendingPrivacy, setPendingPrivacy] = useState<boolean | null>(null);
 
-  // Groups State
   const [userGroups, setUserGroups] = useState<any[]>([]);
   const [isLoadingGroups, setIsLoadingGroups] = useState(false);
+
+  const [followersList, setFollowersList] = useState<any[]>([]);
+  const [followingList, setFollowingList] = useState<any[]>([]);
+  const [showFollowersModal, setShowFollowersModal] = useState(false);
+  const [showFollowingModal, setShowFollowingModal] = useState(false);
 
   useEffect(() => {
     fetchCurrentUser();
@@ -99,14 +101,12 @@ export default function ProfilePage() {
     fetchProfile();
   }, [currentUser]);
 
-  // Fetch groups when the GROUPS tab is active
   useEffect(() => {
     const fetchUserGroups = async () => {
       if (activeTab !== "GROUPS" || userGroups.length > 0) return;
       setIsLoadingGroups(true);
       try {
         const { data } = await apiClient.get("/api/groups");
-        // Filter groups where the current user is an accepted member
         const joinedGroups = (data.groups || []).filter(
           (g: any) => g.is_member,
         );
@@ -119,6 +119,26 @@ export default function ProfilePage() {
     };
     fetchUserGroups();
   }, [activeTab, userGroups.length]);
+
+  const fetchFollowers = async () => {
+    if (followersList.length > 0) return;
+    try {
+      const { data } = await apiClient.get("/api/follow/followers");
+      setFollowersList(data.followers || []);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const fetchFollowing = async () => {
+    if (followingList.length > 0) return;
+    try {
+      const { data } = await apiClient.get("/api/follow/following");
+      setFollowingList(data.following || []);
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   const handlePrivacyToggle = (newIsPublic: boolean) => {
     setPendingPrivacy(newIsPublic);
@@ -227,11 +247,7 @@ export default function ProfilePage() {
                 </button>
               )}
               <Button
-                className={`rounded-xl px-6 py-2.5 text-sm font-bold transition-all duration-200 ${
-                  isOwnProfile
-                    ? "bg-surface-container-lowest border border-outline-variant text-on-surface hover:bg-surface-container-low"
-                    : "bg-primary text-on-primary hover:bg-primary/90 shadow-sm hover:shadow-md"
-                }`}
+                className={`rounded-xl px-6 py-2.5 text-sm font-bold transition-all duration-200 ${isOwnProfile ? "bg-surface-container-lowest border border-outline-variant text-on-surface hover:bg-surface-container-low" : "bg-primary text-on-primary hover:bg-primary/90 shadow-sm hover:shadow-md"}`}
               >
                 {isOwnProfile ? "Edit Profile" : "Follow"}
               </Button>
@@ -255,22 +271,34 @@ export default function ProfilePage() {
                 Posts
               </span>
             </div>
-            <div className="text-center md:text-left">
+            <button
+              onClick={() => {
+                setShowFollowersModal(true);
+                fetchFollowers();
+              }}
+              className="text-center md:text-left hover:text-primary transition-colors"
+            >
               <span className="text-lg font-bold text-on-surface">
                 {followers?.length || profileData.follower_count || 0}
               </span>
               <span className="text-xs font-mono font-semibold text-on-surface-variant uppercase tracking-wider ml-1.5">
                 Followers
               </span>
-            </div>
-            <div className="text-center md:text-left">
+            </button>
+            <button
+              onClick={() => {
+                setShowFollowingModal(true);
+                fetchFollowing();
+              }}
+              className="text-center md:text-left hover:text-primary transition-colors"
+            >
               <span className="text-lg font-bold text-on-surface">
                 {following?.length || profileData.following_count || 0}
               </span>
               <span className="text-xs font-mono font-semibold text-on-surface-variant uppercase tracking-wider ml-1.5">
                 Following
               </span>
-            </div>
+            </button>
           </div>
         </div>
 
@@ -281,11 +309,7 @@ export default function ProfilePage() {
               <button
                 key={tab}
                 onClick={() => setActiveTab(tab)}
-                className={`px-6 py-4 text-xs font-bold uppercase tracking-wider transition-all duration-200 relative ${
-                  activeTab === tab
-                    ? "text-primary"
-                    : "text-on-surface-variant hover:text-on-surface"
-                }`}
+                className={`px-6 py-4 text-xs font-bold uppercase tracking-wider transition-all duration-200 relative ${activeTab === tab ? "text-primary" : "text-on-surface-variant hover:text-on-surface"}`}
               >
                 {tab}
                 {activeTab === tab && (
@@ -326,31 +350,23 @@ export default function ProfilePage() {
                         </span>
                       </div>
                     )}
-
                     <div className="p-6">
                       <div className="flex items-center justify-between mb-4">
                         <span className="text-xs font-mono text-on-surface-variant">
                           {new Date(post.created_at).toLocaleDateString(
                             "en-US",
-                            {
-                              month: "short",
-                              day: "numeric",
-                              year: "numeric",
-                            },
+                            { month: "short", day: "numeric", year: "numeric" },
                           )}
                         </span>
                       </div>
-
                       {post.title && (
                         <h3 className="text-lg font-bold text-on-surface mb-2 leading-snug group-hover:text-primary transition-colors">
                           {post.title}
                         </h3>
                       )}
-
                       <p className="text-sm text-on-surface-variant leading-relaxed mb-4">
                         {post.content}
                       </p>
-
                       {post.image && (
                         <div className="rounded-xl overflow-hidden mb-4 border border-outline-variant">
                           <img
@@ -361,8 +377,6 @@ export default function ProfilePage() {
                         </div>
                       )}
                     </div>
-
-                    {/* Engagement Bar */}
                     <div className="flex items-center justify-between px-6 py-4 border-t border-outline-variant">
                       <div className="flex items-center gap-6">
                         <button className="flex items-center gap-1.5 text-on-surface-variant hover:text-primary transition-colors">
@@ -439,7 +453,7 @@ export default function ProfilePage() {
             </div>
           )}
 
-          {/* GROUPS TAB — FUNCTIONAL */}
+          {/* GROUPS TAB */}
           {activeTab === "GROUPS" && (
             <div>
               {isLoadingGroups ? (
@@ -474,10 +488,9 @@ export default function ProfilePage() {
                       onClick={() => router.push(`/groups/${group.id}`)}
                       className="group bg-surface-container-lowest border border-outline-variant rounded-2xl p-5 flex flex-col cursor-pointer hover:border-primary/30 hover:shadow-lg transition-all duration-200"
                     >
-                      {/* Top Row: Icon + Status Badge */}
                       <div className="flex items-center justify-between mb-3">
                         <div className="w-10 h-10 bg-primary/10 rounded-xl flex items-center justify-center">
-                          <Hash
+                          <Users
                             className="text-primary"
                             size={18}
                             strokeWidth={2.5}
@@ -487,8 +500,6 @@ export default function ProfilePage() {
                           Joined
                         </span>
                       </div>
-
-                      {/* Title & Description */}
                       <div className="flex-1 min-w-0 mb-3">
                         <h3 className="text-base font-bold text-on-surface mb-2 truncate group-hover:text-primary transition-colors">
                           {group.title}
@@ -497,8 +508,6 @@ export default function ProfilePage() {
                           {group.description || "No description provided."}
                         </p>
                       </div>
-
-                      {/* Footer: Members + Arrow */}
                       <div className="flex items-center justify-between pt-3 border-t border-outline-variant mt-auto">
                         <div className="flex items-center gap-4">
                           <div className="flex items-center gap-1.5 text-on-surface-variant">
@@ -515,7 +524,7 @@ export default function ProfilePage() {
                             </div>
                           )}
                         </div>
-                        <ArrowRight
+                        <Share2
                           size={16}
                           className="text-on-surface-variant group-hover:text-primary group-hover:translate-x-0.5 transition-all duration-200"
                         />
@@ -557,6 +566,18 @@ export default function ProfilePage() {
         confirmLabel={pendingPrivacy ? "Go Public" : "Go Private"}
         onConfirm={confirmPrivacyChange}
         onCancel={() => setShowPrivacyModal(false)}
+      />
+      <UsersListModal
+        isOpen={showFollowersModal}
+        title="Followers"
+        users={followersList}
+        onClose={() => setShowFollowersModal(false)}
+      />
+      <UsersListModal
+        isOpen={showFollowingModal}
+        title="Following"
+        users={followingList}
+        onClose={() => setShowFollowingModal(false)}
       />
     </MainLayout>
   );
