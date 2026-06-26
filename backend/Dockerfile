@@ -1,34 +1,44 @@
+# backend/Dockerfile
+# Multi-stage build for the Go backend application with SQLite support.
+
 # Stage 1: Build the Go binary
 FROM golang:1.21-alpine AS builder
 
-# Install build dependencies for CGO (required for sqlite3)
-RUN apk add --no-cache gcc musl-dev sqlite-dev build-base
+# Install build dependencies for CGO (required by SQLite)
+RUN apk add --no-cache build-base
 
 WORKDIR /app
 
-# Copy dependency files
-COPY go.mod go.sum ./
-RUN go mod download
+# Copy go.mod files first for better layer caching
+COPY go.work go.mod go.sum ./
+COPY backend/go.mod backend/go.sum ./backend/
 
-# Copy the rest of the application source code
-COPY . .
+# Download dependencies
+RUN go mod download || true
 
-# Build the statically linked Go binary with CGO enabled (for sqlite3)
-RUN CGO_ENABLED=1 GOOS=linux go build -ldflags="-w -s" -o server server.go
+# Copy the rest of the source code
+COPY backend/ ./backend/
 
-# Stage 2: Run the binary in a minimal container
-FROM alpine:latest
+# Build the Go binary with CGO enabled for SQLite
+RUN CGO_ENABLED=1 GOOS=linux GOARCH=amd64 go build -o /server ./backend/cmd/server/main.go
 
-# Install sqlite runtime and ca-certificates
-RUN apk add --no-cache ca-certificates sqlite-libs
+# Stage 2: Minimal production runtime
+FROM alpine:3.18 AS runner
 
-WORKDIR /app
+# Install runtime dependencies
+RUN apk add --no-cache ca-certificates sqlite
 
-# Copy the built binary from the builder stage
-COPY --from=builder /app/server .
+WORKDIR /root/
 
-# Expose the API port
+# Copy binary from builder
+COPY --from=builder /server .
+
+# Copy migration files so the app can run them on startup
+COPY --from=builder /app/backend/pkg/db/migrations ./pkg/db/migrations
+
+# Create data and uploads directories
+RUN mkdir -p ./data ./uploads
+
 EXPOSE 8080
 
-# Run the server
 CMD ["./server"]
