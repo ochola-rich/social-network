@@ -1,28 +1,46 @@
-version: "3.8"
+# docker-compose.yml (UPDATED - removed obsolete version attribute)
+# Orchestrates the backend and frontend containers for the Social Network application.
+
 services:
   backend:
-    build: ./backend
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    container_name: social-network-backend
     ports:
       - "8080:8080"
     volumes:
-      - ./backend/data:/root/data
-      - ./backend/uploads:/root/uploads
+      - backend-data:/root/data
+      - backend-uploads:/root/uploads
     environment:
       - DB_PATH=./data/social_network.db
       - UPLOAD_DIR=./uploads
-    # Allow backend to resolve host.docker.internal if needed
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
+    restart: unless-stopped
+    networks:
+      - app-network
 
   frontend:
-    build: ./frontend
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        - NEXT_PUBLIC_API_URL=http://localhost:8080
+        - NEXT_PUBLIC_WS_URL=ws://localhost:8080/ws
+    container_name: social-network-frontend
     ports:
       - "3000:3000"
-    environment:
-      # Use host.docker.internal so the frontend container can reach the backend on the host machine
-      - NEXT_PUBLIC_API_URL=http://host.docker.internal:8080
-      - NEXT_PUBLIC_WS_URL=ws://host.docker.internal:8080/ws
     depends_on:
       - backend
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
+    restart: unless-stopped
+    networks:
+      - app-network
+
+volumes:
+  backend-data:
+    driver: local
+  backend-uploads:
+    driver: local
+
+networks:
+  app-network:
+    driver: bridge
