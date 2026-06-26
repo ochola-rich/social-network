@@ -37,3 +37,5 @@ tasks.md
 
 # Docker volumes and runtime data
 *.db
+data/
+uploads/
