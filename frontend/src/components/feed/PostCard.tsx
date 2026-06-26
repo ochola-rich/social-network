@@ -1,8 +1,11 @@
+// src/components/feed/PostCard.tsx
 // Core post display component. Includes functional comments fetching, submission,
+// image uploads for comments, and native sharing.
 
 "use client";
 
 import React, { useState } from "react";
+import { useRouter } from "next/navigation";
 import {
   Heart,
   MessageCircle,
@@ -41,6 +44,7 @@ interface Comment {
 
 interface PostCardProps {
   id: number;
+  authorId?: number;
   author: {
     name: string;
     handle?: string;
@@ -58,6 +62,7 @@ interface PostCardProps {
 
 export const PostCard: React.FC<PostCardProps> = ({
   id,
+  authorId,
   author,
   timestamp,
   type = "text",
@@ -68,6 +73,7 @@ export const PostCard: React.FC<PostCardProps> = ({
   likes,
   comments: initialCommentCount,
 }) => {
+  const router = useRouter();
   const [isLiked, setIsLiked] = useState(false);
   const [isBookmarked, setIsBookmarked] = useState(false);
   const [likeCount, setLikeCount] = useState(likes);
@@ -132,7 +138,6 @@ export const PostCard: React.FC<PostCardProps> = ({
     setIsSubmittingComment(true);
     try {
       let imagePath = "";
-
       if (commentImage) {
         setIsUploadingCommentImage(true);
         const formData = new FormData();
@@ -192,7 +197,10 @@ export const PostCard: React.FC<PostCardProps> = ({
     >
       {/* Header */}
       <div className="flex items-center justify-between">
-        <div className="flex items-center gap-3">
+        <div
+          className="flex items-center gap-3 cursor-pointer hover:opacity-80 transition-opacity"
+          onClick={() => authorId && router.push(`/profile?userId=${authorId}`)}
+        >
           <Avatar
             src={resolveImageUrl(author.avatar || "")}
             alt={author.name}
@@ -368,7 +376,7 @@ export const PostCard: React.FC<PostCardProps> = ({
                     src={resolveImageUrl(comment.user.avatar)}
                     alt={comment.user.first_name}
                     size="sm"
-                    className="w-8 h-8 flex-shrink-0 rounded-lg"
+                    className="w-8 h-8 rounded-lg flex-shrink-0"
                   />
                   <div className="flex-1 bg-surface-container-low p-3 rounded-lg rounded-tl-none">
                     <p className="font-bold text-xs text-on-surface mb-1">
@@ -380,7 +388,6 @@ export const PostCard: React.FC<PostCardProps> = ({
                     <p className="text-sm text-on-surface-variant">
                       {comment.content}
                     </p>
-
                     {comment.image && (
                       <div className="mt-2 rounded-lg overflow-hidden border border-outline-variant w-32 h-32">
                         <img
@@ -396,7 +403,6 @@ export const PostCard: React.FC<PostCardProps> = ({
             </div>
           )}
 
-          {/* Add Comment Input with Image Upload */}
           <div className="mt-4 flex flex-col gap-2">
             {commentImagePreview && (
               <div className="relative w-20 h-20 rounded-lg overflow-hidden border border-outline-variant">
