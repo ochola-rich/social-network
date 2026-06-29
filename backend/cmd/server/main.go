@@ -56,6 +56,13 @@ func main() {
 	// Router
 	mux := http.NewServeMux()
 
+	// Health Route
+	mux.HandleFunc("/health", func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(http.StatusOK)
+		w.Write([]byte(`{"status": "ok", "message": "Go Social Network API is running"}`))
+	})
+
 	// Auth Routes
 	mux.HandleFunc("/api/auth/register", authHandler.Register)
 	mux.HandleFunc("/api/auth/login", authHandler.Login)

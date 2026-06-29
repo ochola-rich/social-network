@@ -1,5 +1,5 @@
 # Stage 1: Build the Go binary
-FROM golang:1.21-alpine AS builder
+FROM golang:1.22-alpine AS builder
 
 # Install build dependencies for CGO (required for sqlite3)
 RUN apk add --no-cache gcc musl-dev sqlite-dev build-base
@@ -26,6 +26,7 @@ WORKDIR /app
 
 # Copy the built binary from the builder stage
 COPY --from=builder /app/server .
+COPY --from=builder /app/pkg/db/migrations ./pkg/db/migrations
 
 # Expose the API port
 EXPOSE 8080
