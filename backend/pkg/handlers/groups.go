@@ -4,11 +4,10 @@ import (
 	"database/sql"
 	"encoding/json"
 	"net/http"
+	"social-network/backend/pkg/sessions"
 	"strconv"
 	"strings"
 	"time"
-
-	"social-network/backend/pkg/sessions"
 )
 
 // GroupsHandler handles group-related endpoints.
@@ -83,12 +82,12 @@ func (h *GroupsHandler) GetAllGroups(w http.ResponseWriter, r *http.Request) {
 
 	rows, err := h.db.Query(
 		`SELECT g.id, g.title, g.description, g.creator_id, g.created_at,
-		        u.first_name, u.last_name, COALESCE(u.avatar,''),
-		        (SELECT COUNT(*) FROM group_members WHERE group_id = g.id AND status = 'accepted') as member_count,
-		        (SELECT COUNT(*) > 0 FROM group_members WHERE group_id = g.id AND user_id = ? AND status = 'accepted') as is_member
-		 FROM groups g
-		 JOIN users u ON u.id = g.creator_id
-		 ORDER BY g.created_at DESC`, userID,
+		u.first_name, u.last_name, COALESCE(u.avatar,''),
+		(SELECT COUNT(*) FROM group_members WHERE group_id = g.id AND status = 'accepted') as member_count,
+		(SELECT COUNT(*) > 0 FROM group_members WHERE group_id = g.id AND user_id = ? AND status = 'accepted') as is_member
+		FROM groups g
+		JOIN users u ON u.id = g.creator_id
+		ORDER BY g.created_at DESC`, userID,
 	)
 	if err != nil {
 		http.Error(w, `{"error":"database error"}`, http.StatusInternalServerError)
@@ -108,6 +107,7 @@ func (h *GroupsHandler) GetAllGroups(w http.ResponseWriter, r *http.Request) {
 			"creator": map[string]interface{}{"first_name": fn, "last_name": ln, "avatar": av},
 		})
 	}
+
 	if groups == nil {
 		groups = []map[string]interface{}{}
 	}
@@ -124,6 +124,7 @@ func (h *GroupsHandler) GetGroup(w http.ResponseWriter, r *http.Request) {
 	}
 
 	userID := sessions.GetUserIDFromRequest(r)
+
 	parts := strings.Split(r.URL.Path, "/")
 	groupID, err := strconv.Atoi(parts[len(parts)-1])
 	if err != nil {
@@ -339,6 +340,7 @@ func (h *GroupsHandler) InviteToGroup(w http.ResponseWriter, r *http.Request) {
 		json.NewEncoder(w).Encode(map[string]interface{}{"message": "user is already a member"})
 		return
 	}
+
 	if err == sql.ErrNoRows {
 		h.db.Exec("INSERT INTO group_members (group_id, user_id, status) VALUES (?, ?, 'invited')", groupID, req.UserID)
 	} else {
@@ -389,6 +391,7 @@ func (h *GroupsHandler) CreateGroupPost(w http.ResponseWriter, r *http.Request) 
 		http.Error(w, `{"error":"invalid request body"}`, http.StatusBadRequest)
 		return
 	}
+
 	if req.Content == "" {
 		http.Error(w, `{"error":"content is required"}`, http.StatusBadRequest)
 		return
@@ -404,6 +407,7 @@ func (h *GroupsHandler) CreateGroupPost(w http.ResponseWriter, r *http.Request) 
 	}
 
 	postID, _ := result.LastInsertId()
+
 	w.WriteHeader(http.StatusCreated)
 	json.NewEncoder(w).Encode(map[string]interface{}{"message": "post created", "post_id": postID})
 }
@@ -445,6 +449,7 @@ func (h *GroupsHandler) CreateGroupEvent(w http.ResponseWriter, r *http.Request)
 		http.Error(w, `{"error":"invalid request body"}`, http.StatusBadRequest)
 		return
 	}
+
 	if req.Title == "" || req.DayTime == "" {
 		http.Error(w, `{"error":"title and day_time are required"}`, http.StatusBadRequest)
 		return
@@ -512,6 +517,7 @@ func (h *GroupsHandler) RespondToEvent(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, `{"error":"invalid request body"}`, http.StatusBadRequest)
 		return
 	}
+
 	if req.Response != "going" && req.Response != "not_going" {
 		http.Error(w, `{"error":"response must be 'going' or 'not_going'"}`, http.StatusBadRequest)
 		return
@@ -549,6 +555,7 @@ func (h *GroupsHandler) AddGroupPostComment(w http.ResponseWriter, r *http.Reque
 	// Verify user is member of the group
 	var groupID int
 	h.db.QueryRow("SELECT group_id FROM group_posts WHERE id = ?", postID).Scan(&groupID)
+
 	var status string
 	h.db.QueryRow("SELECT status FROM group_members WHERE group_id = ? AND user_id = ?", groupID, userID).Scan(&status)
 	if status != "accepted" {
@@ -564,6 +571,7 @@ func (h *GroupsHandler) AddGroupPostComment(w http.ResponseWriter, r *http.Reque
 		http.Error(w, `{"error":"invalid request body"}`, http.StatusBadRequest)
 		return
 	}
+
 	if req.Content == "" {
 		http.Error(w, `{"error":"content is required"}`, http.StatusBadRequest)
 		return
@@ -579,8 +587,46 @@ func (h *GroupsHandler) AddGroupPostComment(w http.ResponseWriter, r *http.Reque
 	}
 
 	commentID, _ := result.LastInsertId()
+
 	w.WriteHeader(http.StatusCreated)
 	json.NewEncoder(w).Encode(map[string]interface{}{"message": "comment added", "comment_id": commentID})
+}
+
+// GetGroupPostComments returns all comments for a group post.
+// GET /api/groups/posts/{postId}/comments
+func (h *GroupsHandler) GetGroupPostComments(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodGet {
+		http.Error(w, `{"error":"method not allowed"}`, http.StatusMethodNotAllowed)
+		return
+	}
+
+	userID := sessions.GetUserIDFromRequest(r)
+	if userID == 0 {
+		http.Error(w, `{"error":"unauthorized"}`, http.StatusUnauthorized)
+		return
+	}
+
+	parts := strings.Split(r.URL.Path, "/")
+	postID, err := strconv.Atoi(parts[len(parts)-2])
+	if err != nil {
+		http.Error(w, `{"error":"invalid post id"}`, http.StatusBadRequest)
+		return
+	}
+
+	// Verify user is member of the group
+	var groupID int
+	h.db.QueryRow("SELECT group_id FROM group_posts WHERE id = ?", postID).Scan(&groupID)
+
+	var status string
+	h.db.QueryRow("SELECT status FROM group_members WHERE group_id = ? AND user_id = ?", groupID, userID).Scan(&status)
+	if status != "accepted" {
+		http.Error(w, `{"error":"only members can view comments"}`, http.StatusForbidden)
+		return
+	}
+
+	comments := h.getGroupPostComments(postID)
+
+	json.NewEncoder(w).Encode(map[string]interface{}{"comments": comments})
 }
 
 // --- Private helpers ---
@@ -588,8 +634,8 @@ func (h *GroupsHandler) AddGroupPostComment(w http.ResponseWriter, r *http.Reque
 func (h *GroupsHandler) getGroupMembers(groupID int) []map[string]interface{} {
 	rows, err := h.db.Query(
 		`SELECT u.id, u.first_name, u.last_name, COALESCE(u.avatar,''), gm.status
-		 FROM group_members gm JOIN users u ON u.id = gm.user_id
-		 WHERE gm.group_id = ? AND gm.status = 'accepted'`, groupID,
+		FROM group_members gm JOIN users u ON u.id = gm.user_id
+		WHERE gm.group_id = ? AND gm.status = 'accepted'`, groupID,
 	)
 	if err != nil {
 		return nil
@@ -611,10 +657,10 @@ func (h *GroupsHandler) getGroupMembers(groupID int) []map[string]interface{} {
 func (h *GroupsHandler) getGroupPosts(groupID int) []map[string]interface{} {
 	rows, err := h.db.Query(
 		`SELECT gp.id, gp.content, COALESCE(gp.image,''), gp.created_at,
-		        u.id, u.first_name, u.last_name, COALESCE(u.avatar,''),
-		        (SELECT COUNT(*) FROM group_post_comments WHERE group_post_id = gp.id) as comment_count
-		 FROM group_posts gp JOIN users u ON u.id = gp.user_id
-		 WHERE gp.group_id = ? ORDER BY gp.created_at DESC`, groupID,
+		u.id, u.first_name, u.last_name, COALESCE(u.avatar,''),
+		(SELECT COUNT(*) FROM group_post_comments WHERE group_post_id = gp.id) as comment_count
+		FROM group_posts gp JOIN users u ON u.id = gp.user_id
+		WHERE gp.group_id = ? ORDER BY gp.created_at DESC`, groupID,
 	)
 	if err != nil {
 		return nil
@@ -635,12 +681,41 @@ func (h *GroupsHandler) getGroupPosts(groupID int) []map[string]interface{} {
 	return posts
 }
 
+func (h *GroupsHandler) getGroupPostComments(postID int) []map[string]interface{} {
+	rows, err := h.db.Query(
+		`SELECT gpc.id, gpc.content, COALESCE(gpc.image,''), gpc.created_at,
+		u.id, u.first_name, u.last_name, COALESCE(u.avatar,''), COALESCE(u.nickname,'')
+		FROM group_post_comments gpc
+		JOIN users u ON u.id = gpc.user_id
+		WHERE gpc.group_post_id = ?
+		ORDER BY gpc.created_at ASC`, postID,
+	)
+	if err != nil {
+		return nil
+	}
+	defer rows.Close()
+
+	var comments []map[string]interface{}
+	for rows.Next() {
+		var id, uid int
+		var content, img, createdAt, fn, ln, av, nn string
+		rows.Scan(&id, &content, &img, &createdAt, &uid, &fn, &ln, &av, &nn)
+		comments = append(comments, map[string]interface{}{
+			"id": id, "content": content, "image": img, "created_at": createdAt,
+			"user": map[string]interface{}{
+				"id": uid, "first_name": fn, "last_name": ln, "avatar": av, "nickname": nn,
+			},
+		})
+	}
+	return comments
+}
+
 func (h *GroupsHandler) getGroupEvents(groupID int) []map[string]interface{} {
 	rows, err := h.db.Query(
 		`SELECT e.id, e.title, e.description, e.day_time, e.creator_id,
-		        u.first_name, u.last_name
-		 FROM group_events e JOIN users u ON u.id = e.creator_id
-		 WHERE e.group_id = ? ORDER BY e.day_time ASC`, groupID,
+		u.first_name, u.last_name
+		FROM group_events e JOIN users u ON u.id = e.creator_id
+		WHERE e.group_id = ? ORDER BY e.day_time ASC`, groupID,
 	)
 	if err != nil {
 		return nil
@@ -664,8 +739,8 @@ func (h *GroupsHandler) getGroupEvents(groupID int) []map[string]interface{} {
 func (h *GroupsHandler) getEventResponses(eventID int) []map[string]interface{} {
 	rows, err := h.db.Query(
 		`SELECT er.user_id, er.response, u.first_name, u.last_name
-		 FROM event_responses er JOIN users u ON u.id = er.user_id
-		 WHERE er.event_id = ?`, eventID,
+		FROM event_responses er JOIN users u ON u.id = er.user_id
+		WHERE er.event_id = ?`, eventID,
 	)
 	if err != nil {
 		return nil

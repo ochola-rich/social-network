@@ -119,8 +119,17 @@ func main() {
 		}
 	}))
 	mux.HandleFunc("/api/events/", sessionStore.RequireAuth(groupsHandler.RespondToEvent))
-	mux.HandleFunc("/api/groups/posts/", sessionStore.RequireAuth(groupsHandler.AddGroupPostComment))
-
+	mux.HandleFunc("/api/groups/posts/", sessionStore.RequireAuth(func(w http.ResponseWriter, r *http.Request) {
+    if r.Method == http.MethodGet {
+        // Fetch comments for a specific group post
+        groupsHandler.GetGroupPostComments(w, r)
+    } else if r.Method == http.MethodPost {
+        // Add a new comment to a group post
+        groupsHandler.AddGroupPostComment(w, r)
+    } else {
+        http.Error(w, `{"error":"method not allowed"}`, http.StatusMethodNotAllowed)
+    }
+}))
 	// Notification Routes
 	mux.HandleFunc("/api/notifications", sessionStore.RequireAuth(notificationsHandler.GetNotifications))
 	mux.HandleFunc("/api/notifications/read/", sessionStore.RequireAuth(notificationsHandler.MarkAsRead))
